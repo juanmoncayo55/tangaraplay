@@ -1,17 +1,21 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import {Link} from "react-router-dom";
 import { Wheel } from 'react-custom-roulette'
+import HeadScore from "../utils/HeadScore.jsx"
 
 const data = [
   { option: '0' },
   { option: '1' },
+  { option: '2' },
   { option: '3' },
+  { option: '4' },
   { option: '5' },
   { option: '6' },
   { option: '7' },
   { option: '8' },
   { option: '9' },
   { option: '10' },
-  { option: '11' }
+  { option: '11' },
 ]
 
 const Roulette = () => {
@@ -27,33 +31,33 @@ const Roulette = () => {
   	}
   }
 
+  /*Aplicando Gradiente a cada separador de la ruleta*/
+  const createCanvas = document.createElement("CANVAS");
+  const canvas = createCanvas.getContext("2d");
+  const grad=canvas.createLinearGradient(200,300,350,900);
+	grad.addColorStop(0, "#43BAFF");
+	grad.addColorStop(1, "#2568FB");
+
+  const canvas2 = createCanvas.getContext("2d");
+	const grad2=canvas2.createLinearGradient(200,300,350,900);
+	grad2.addColorStop(0, "#5C62DF");
+	grad2.addColorStop(1, "#FF5085");
+
 	return (
 		<>
-			<div className="h-4 w-full bg-gradient-to-r from-azulBrillante1 to-azulBrillante2"></div>
-			<div className="bg-clEFEFEF py-4 px-2 w-full flex justify-between items-center gap-3">
-				<div className="flex flex-col justify-center items-center w-2/6">
-					<i className="fa-solid fa-trophy text-4xl"></i>
-					<p className="text-cl379f text-lg font-semibold">10 Puntos</p>
-				</div>
-				<div className="w-3/6">
-					<p className="uppercase text-md font-bold text-center">GIRA LA RULETA Y ACEPTA EL RETO</p>
-				</div>
-				<div className="flex flex-col justify-center items-center w-2/6">
-					<i className="fa-solid fa-trophy text-4xl"></i>
-					<p className="text-cl379f text-lg font-semibold">100 Puntos</p>
-				</div>
-			</div>
+			<HeadScore title="GIRA LA RULETA Y ACEPTA EL RETO" />
 			<div className="-rotate-45 container mx-auto px-5 flex justify-center my-14">
 				<Wheel
 		      mustStartSpinning={mustSpin}
 		      prizeNumber={prizeNumber}
 		      data={data}
-		      backgroundColors={['#2A7EFE', '#FDFDFD']}
-		      outerBorderColor={["#0D5BF2"]}
+		      backgroundColors={["#FDFDFD", grad, grad2]}
+		      outerBorderColor={["#0E59F1"]}
 		      outerBorderWidth={15}
-		      innerBorderColor={["#f2f2f2"]}
-		      textColors={['#ffffff', "#2A7EFE"]}
-		      fontSize={[40]}
+		      radiusLineColor={["transparent"]}
+		      radiusLineWidth={0}
+		      textColors={[grad,'#ffffff', "#ffffff"]}
+		      fontSize={[35]}
 		      onStopSpinning={() => {
 	          setMustSpin(false);
 	          setSelectedValueRoulette(data[prizeNumber].option)
@@ -67,10 +71,8 @@ const Roulette = () => {
 	    	<button
 	    		className="bg-white text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2"
 	    		>Volver</button>
-	    	<button
-	    		className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2"
-	    		onClick={() => initRoulette()}
-	    	>Jugar</button>
+
+	    	<Link to="trivia" className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2 text-center">Jugar</Link>
 	    </div>
 		</>
 	)
