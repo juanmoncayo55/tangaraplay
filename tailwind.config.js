@@ -13,7 +13,7 @@ export default {
         "backgroundAzulOscuro": "#2B3960",
         "clEFEFEF": "#EFEFEF",
         "cl379f": "#379FFE",
-        "pruebaGradiente": "linear-gradient(to right red, blue)"
+        "verdeLimon": "#D1F203"
       }
     },
   },
