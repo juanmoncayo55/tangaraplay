@@ -8,17 +8,19 @@ import "./trivia.css";
 
 const Trivia = () => {
 	const [quizResult, setQuizResult] = useState({});
+	const [showResult, setShowResult] = useState(false);
 
 	const quizResultFn = data => {
 		console.log(data)
 		setQuizResult(data);
+		setShowResult(true);
 	}
 
 	return (
 		<>
 			<HeadScore title="RESPONDE LA TRIVIA ACORDE A LA INFORMACIÓN" />
 			<div className="conatiner mx-auto px-5 flex flex-col">
-				{ quizResult.numberOfCorrectAnswers !== undefined ? "" : <p className="text-azulBrillante3 text-center text-xl mt-5">con base en lo aprendido en Tángara</p>}
+				{ showResult ? "" : <p className="text-azulBrillante3 text-center text-xl mt-5">con base en lo aprendido en Tángara</p>}
 				<Quiz
 					quiz={dataTrivia}
 					disableSynopsis
@@ -27,7 +29,7 @@ const Trivia = () => {
 					onComplete={quizResultFn}
 				/>
 			</div>
-			{ quizResult.numberOfCorrectAnswers && (
+			{ showResult && (
 				<>
 					<div className="flex flex-col justify-center gap-y-2">
 						<p className="text-white text-lg text-center">Preguntas Correctas: {quizResult.numberOfCorrectAnswers}</p>
