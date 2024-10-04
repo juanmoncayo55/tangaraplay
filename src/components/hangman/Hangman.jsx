@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Link} from "react-router-dom";
 import Hangman from './index.js'
 import './index.css'
@@ -9,12 +9,18 @@ const hng = new Hangman();
 const HangmanComponent = () => {
   const [keyWord, setKeyWord] = useState("")
 
+  useEffect(() => {
+    hng.reset();
+    showBtns()
+  }, [])
+
   const showBtns = () => {
     const buttons = document.querySelectorAll("#letterAll button")
     for(let i = 0; i < buttons.length ; i++){
       buttons[i].addEventListener("click", function(e){
-        console.log(e.target.innerText)
+        //console.log(e.target)
         hng.guess(e.target.innerText)
+        e.target.parentNode.removeChild(e.target)
       })
     }
   }
@@ -42,6 +48,8 @@ const HangmanComponent = () => {
           </div>
           {/* Aqui termina (Esta oculta) */}
 
+          <img src="/images/cristiano_ronaldo.jpg" className="w-8/12 mx-auto" />
+
           <div>
             <p className="text-white text-xl" id="winner-hangman"></p>
           </div>
@@ -57,7 +65,7 @@ const HangmanComponent = () => {
                 </div>
             </div>
             {/* Zona de Botones Azules */}
-            <div id="letterAll" className="flex flex-wrap gap-3">
+            <div id="letterAll" className="grid grid-cols-6 grid-rows-auto gap-3">
                 
             </div>
             {/* Botones */}
