@@ -43,7 +43,11 @@ const HangmanComponent = () => {
           {/* Aqui termina (Esta oculta) */}
 
           <div>
-            <div id="hangm_guesses" className="h"></div>
+            <p className="text-white text-xl" id="winner-hangman"></p>
+          </div>
+
+          <div>
+            <div id="hangm_guesses" className="h text-white text-xl font-semibold"></div>
           </div>
 
             {/* Zona de Botones Blancos */}

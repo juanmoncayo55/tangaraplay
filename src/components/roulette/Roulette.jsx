@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { Wheel } from 'react-custom-roulette'
 import HeadScore from "../utils/HeadScore.jsx"
 
@@ -21,13 +21,21 @@ const data = [
 const Roulette = () => {
 	const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
+  const [textBtnPlay, setTextBtnPlay] = useState(true);
   const [selectedValueRoulette, setSelectedValueRoulette] = useState(null)
 
+  const navigate = useNavigate();
+
   const initRoulette = () => {
-  	if(!mustSpin){
-	  	const newPrizeNumber = Math.floor(Math.random() * data.length);
-	    setPrizeNumber(newPrizeNumber);
-	  	setMustSpin(true)
+  	if(textBtnPlay){
+	  	if(!mustSpin){
+		  	const newPrizeNumber = Math.floor(Math.random() * data.length);
+		    setPrizeNumber(newPrizeNumber);
+		  	setMustSpin(true)
+	  	}
+  	}else{
+  		console.log("CAmbia")
+  		navigate("/trivia")
   	}
   }
 
@@ -61,6 +69,7 @@ const Roulette = () => {
 		      onStopSpinning={() => {
 	          setMustSpin(false);
 	          setSelectedValueRoulette(data[prizeNumber].option)
+	          setTextBtnPlay(false)
 	        }}
 		    />
 	    </div>
@@ -74,7 +83,7 @@ const Roulette = () => {
 	    	<button
 	    		className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2 text-center"
 	    		onClick={() => initRoulette()}
-	    		>Jugar</button>
+	    		>{textBtnPlay ? "Jugar" : "Cambiar"}</button>
 	    	{/* <Link to="trivia" className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2 text-center">Jugar</Link> */}
 	    </div>
 		</>

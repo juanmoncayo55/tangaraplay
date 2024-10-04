@@ -70,13 +70,16 @@ var Hangman = function () {
             // Show next part of hangman character
             this.showElementByIdWithContent(this.elId + "_" + this.MISTAKES, null);
             // Check if its Game Over
-            if (this.MISTAKES === 6) {
-                this.showElementByIdWithContent(this.elId + "_end", "GAME OVER!<br/>The word was: " + this.WORD);
+            if (this.MISTAKES === 3) {
+                //this.showElementByIdWithContent(this.elId + "_end", "GAME OVER!<br/>The word was: " + this.WORD);
+                document.getElementById("winner-hangman").innerText = "Perdiste"
                 this.STOPPED = true;
             }
         } else if (this.WORD.indexOf(this.getGuessedfWord()) !== -1) {
             // Victory condition
             this.showElementByIdWithContent(this.elId + "_end", "You made it!<br/>The word was: " + this.WORD);
+            alert("kalsndlkasndlk")
+            document.getElementById("winner-hangman").innerText = "Lo Lograste!"
             this.STOPPED = true;
         }
     };
