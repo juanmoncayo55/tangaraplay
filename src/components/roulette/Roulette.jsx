@@ -54,37 +54,39 @@ const Roulette = () => {
 	return (
 		<>
 			<HeadScore title="GIRA LA RULETA Y ACEPTA EL RETO" />
-			<div className="-rotate-45 container mx-auto px-5 flex justify-center my-14">
-				<Wheel
-		      mustStartSpinning={mustSpin}
-		      prizeNumber={prizeNumber}
-		      data={data}
-		      backgroundColors={["#FDFDFD", grad, grad2]}
-		      outerBorderColor={["#0E59F1"]}
-		      outerBorderWidth={15}
-		      radiusLineColor={["transparent"]}
-		      radiusLineWidth={0}
-		      textColors={[grad,'#ffffff', "#ffffff"]}
-		      fontSize={[35]}
-		      onStopSpinning={() => {
-	          setMustSpin(false);
-	          setSelectedValueRoulette(data[prizeNumber].option)
-	          setTextBtnPlay(false)
-	        }}
-		    />
-	    </div>
+			<div className="container mx-auto md:mt-8 flex flex-col items-center">
+				<div className="-rotate-45 container mx-auto px-5 flex justify-center my-14">
+					<Wheel
+			      mustStartSpinning={mustSpin}
+			      prizeNumber={prizeNumber}
+			      data={data}
+			      backgroundColors={["#FDFDFD", grad, grad2]}
+			      outerBorderColor={["#0E59F1"]}
+			      outerBorderWidth={15}
+			      radiusLineColor={["transparent"]}
+			      radiusLineWidth={0}
+			      textColors={[grad,'#ffffff', "#ffffff"]}
+			      fontSize={[35]}
+			      onStopSpinning={() => {
+		          setMustSpin(false);
+		          setSelectedValueRoulette(data[prizeNumber].option)
+		          setTextBtnPlay(false)
+		        }}
+			    />
+		    </div>
 
-	    <p className="text-center text-2xl font-bold text-white">{selectedValueRoulette || ""}</p>
+		    <p className="text-center text-2xl font-bold text-white">{selectedValueRoulette || ""}</p>
 
-	    <div className="container mx-auto px-5 flex justify-between gap-4">
-	    	<button
-	    		className="bg-white text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2"
-	    		>Volver</button>
-	    	<button
-	    		className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2 text-center"
-	    		onClick={() => initRoulette()}
-	    		>{textBtnPlay ? "Jugar" : "Cambiar"}</button>
-	    	{/* <Link to="trivia" className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2 text-center">Jugar</Link> */}
+		    <div className="px-5 flex justify-between gap-4">
+		    	<button
+		    		className="bg-white text-black text-lg font-semibold py-3 px-12 rounded-3xl w-1/2"
+		    		>Volver</button>
+		    	<button
+		    		className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-12 rounded-3xl w-1/2 text-center"
+		    		onClick={() => initRoulette()}
+		    		>{textBtnPlay ? "Jugar" : "Cambiar"}</button>
+		    	{/* <Link to="trivia" className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2 text-center">Jugar</Link> */}
+		    </div>
 	    </div>
 		</>
 	)
