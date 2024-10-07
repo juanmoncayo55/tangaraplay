@@ -30,7 +30,7 @@ const HangmanComponent = () => {
 		<>
 			<HeadScore title="Completa el nombre" />
       <div className="container mx-auto px-2">
-  			<div id="hangm" className="flex flex-col space-y-5">
+  			<div id="hangm" className="md:w-1/2 mx-auto flex flex-col space-y-5">
           <div>
             <div id="hangm_end" className="h"></div>
           </div>
