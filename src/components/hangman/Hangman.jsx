@@ -25,7 +25,7 @@ const HangmanComponent = () => {
           e.target.style.backgroundColor = "red"
           e.target.style.color = "white"
         }else{
-          e.target.style.backgroundColor = "green"
+          e.target.style.backgroundColor = "green<"
           e.target.style.color = "white"
         }
       })
