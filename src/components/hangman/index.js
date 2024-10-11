@@ -19,6 +19,9 @@ var Hangman = function () {
             'PROGRAMMER', 'BRAINSTORM', 'CREATIVE', 'LOLLIPOP',
             'CULTURE', 'RAZORSHARP', 'SCREWDRIVER', 'TYPEWRITER'
         ];
+        
+        //Valor que necesito cambiar segun si es verdad o falso
+        this.palabraGuardada = null;
     }
 
     /**
@@ -63,12 +66,16 @@ var Hangman = function () {
         this.showElementByIdWithContent(this.elId + "_word", this.getGuessedfWord());
         this.showElementByIdWithContent(this.elId + "_guesses", this.GUESSES.join(''));
 
+        this.palabraGuardada = this.WORD.indexOf(letter);
         // Check if our word does not contain the guessed letter
         if (this.WORD.indexOf(letter) < 0) {
             // Incorrect guess, increase our mistakes by one
             this.MISTAKES++;
             // Show next part of hangman character
             this.showElementByIdWithContent(this.elId + "_" + this.MISTAKES, null);
+
+            //Me envia si la letra es correcta o incorrecta para poder cambiar color
+            this.palabraGuardada = this.WORD.indexOf(letter);
             // Check if its Game Over
             if (this.MISTAKES === 3) {
                 //this.showElementByIdWithContent(this.elId + "_end", "GAME OVER!<br/>The word was: " + this.WORD);
@@ -83,7 +90,9 @@ var Hangman = function () {
             this.STOPPED = true;
         }
     };
-
+    Hangman.prototype.responseLetter = function() {
+        return this.palabraGuardada;
+    }
     Hangman.prototype.randomLetterForHangman = function (){
 
         //Mi codigo

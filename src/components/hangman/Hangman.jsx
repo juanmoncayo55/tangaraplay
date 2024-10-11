@@ -20,7 +20,14 @@ const HangmanComponent = () => {
       buttons[i].addEventListener("click", function(e){
         //console.log(e.target)
         hng.guess(e.target.innerText)
-        e.target.parentNode.removeChild(e.target)
+        
+        if( hng.responseLetter() < 0){
+          e.target.style.backgroundColor = "red"
+          e.target.style.color = "white"
+        }else{
+          e.target.style.backgroundColor = "green"
+          e.target.style.color = "white"
+        }
       })
     }
   }
