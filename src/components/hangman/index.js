@@ -19,7 +19,7 @@ var Hangman = function () {
             'PROGRAMMER', 'BRAINSTORM', 'CREATIVE', 'LOLLIPOP',
             'CULTURE', 'RAZORSHARP', 'SCREWDRIVER', 'TYPEWRITER'
         ];
-        
+
         //Valor que necesito cambiar segun si es verdad o falso
         this.palabraGuardada = null;
     }
@@ -64,13 +64,13 @@ var Hangman = function () {
         this.GUESSES.push(letter);
         // Update the word hint, and guessed letter list for the user
         this.showElementByIdWithContent(this.elId + "_word", this.getGuessedfWord());
-        this.showElementByIdWithContent(this.elId + "_guesses", this.GUESSES.join(''));
 
         this.palabraGuardada = this.WORD.indexOf(letter);
         // Check if our word does not contain the guessed letter
         if (this.WORD.indexOf(letter) < 0) {
             // Incorrect guess, increase our mistakes by one
             this.MISTAKES++;
+            document.getElementById("failedGame").innerHTML = `Tienes ${3 - this.MISTAKES} Intentos`;
             // Show next part of hangman character
             this.showElementByIdWithContent(this.elId + "_" + this.MISTAKES, null);
 

@@ -25,11 +25,14 @@ const HangmanComponent = () => {
           e.target.style.backgroundColor = "red"
           e.target.style.color = "white"
         }else{
-          e.target.style.backgroundColor = "green<"
+          e.target.style.backgroundColor = "green"
           e.target.style.color = "white"
         }
       })
     }
+
+    document.getElementById("failedGame").innerHTML = "Tienes 3 Intentos"
+    document.getElementById("winner-hangman").innerText = ""
   }
 
 
@@ -41,6 +44,7 @@ const HangmanComponent = () => {
           <div>
             <div id="hangm_end" className="h"></div>
           </div>
+
 
           {/* Esta Zona no la toco pero debe estar ahi (Esta oculta) */}
           <div id="hangm_animation" className="hidden">
@@ -56,6 +60,8 @@ const HangmanComponent = () => {
           {/* Aqui termina (Esta oculta) */}
 
           <img src="/images/cristiano_ronaldo.jpg" className="w-8/12 mx-auto" />
+
+          <div className='text-white text-center text-xl' id="failedGame">Tienes 3 Intentos</div>
 
           <div>
             <p className="text-white text-xl" id="winner-hangman"></p>
