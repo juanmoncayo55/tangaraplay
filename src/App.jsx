@@ -4,6 +4,7 @@ import Roulette from "./components/roulette/Roulette";
 import Trivia from "./components/trivia/Trivia.jsx";
 import Hangman from "./components/hangman/Hangman.jsx";
 import Area from "./components/area/Area.jsx";
+import TriviaMultiple from "./components/triviaMultiple/TriviaMultiple.jsx";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Roulette />} />
           <Route path="/trivia" element={<Trivia />} />
+          <Route path="/trivia-multiple" element={<TriviaMultiple />} />
           <Route path="/hangman" element={<Hangman />} />
           <Route path="/area" element={<Area />} />
         </Routes>

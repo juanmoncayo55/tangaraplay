@@ -6,7 +6,7 @@
 	*/
 	background-color: #D1F203;
 	border-radius: 15px;
-	padding: 25px 0;
+	padding: 25px 10px;
 	text-align: center;
 	font-size: 18px;
 	color: #2B3960;
@@ -42,3 +42,6 @@
 }
 .questionWrapperBody .answerBtn.btn.incorrect{background-color: #ff2041;color: white;}
 .questionWrapperBody .answerBtn.btn.correct{background-color: #8BC34A;color: white;}
+.react-quiz-container{
+	margin: 20px auto;
+}
