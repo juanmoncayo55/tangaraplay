@@ -1,0 +1,33 @@
+.board-grid{
+    width: 100%;
+    margin: 2rem auto;
+    display: block;
+    position: relative;
+    border-radius: 1rem;
+    outline: outset 0.7rem;
+    background-color: #2d2d2d;
+}
+.tile{
+    position: absolute;
+    background-color: #6e92956e;
+    border-radius: .8rem;
+    color: #fff;
+    text-align: center;
+    display: grid;
+    place-items: center;
+    font-size: 6rem;
+}
+.board-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.start-btn{
+    background-color: #478ce1;
+}
+@media only screen and (max-width:768px){
+    .board-footer{
+        flex-direction: column;
+        gap:1.5rem
+    }
+}
