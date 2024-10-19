@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import {WordPuzzleComponent} from "word-search-puzzle/WordPuzzleComponent";
 import "./crucigrama.css"
 
-const answerWords = ["popayan", "territorio", "economia", "cultura", "diversidad"];
+//const answerWords = ["popayan", "territorio", "economia", "cultura", "diversidad"];
+const answerWords = ["example", "gurkan"];
 const matrix = [
   ["a", "b", "c", "d", "e", "g", "x", "t", "e"],
   ["a", "s", "h", "i", "j", "e", "e", "e", "c"],
@@ -21,7 +22,7 @@ const WordSearch = () => {
   const [markedLetters, setMarkedLetters] = useState([]);
   const [containerMatrix, setContainerMatrix] = useState([]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const requestUrlApi = () => {
       fetch("http://localhost:4000/word-search")
         .then(res => res.json())
@@ -30,7 +31,7 @@ const WordSearch = () => {
         })
     }
     requestUrlApi()
-  }, [])
+  }, [])*/
 
 
   return(
@@ -52,7 +53,7 @@ const WordSearch = () => {
           }}
           options={{
             answerWords: answerWords,
-            matrix: containerMatrix,
+            matrix: matrix,
             isSelecting: isSelecting,
             selectedLetters: selectedLetters,
             setSelectedLetters: setSelectedLetters,
