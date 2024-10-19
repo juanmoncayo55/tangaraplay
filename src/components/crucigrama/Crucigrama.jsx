@@ -5,6 +5,9 @@ import Crossword, {CrosswordProvider,DirectionClues,CrosswordGrid, useIpuz} from
 const Crucigrama = () => {
   const crosswordProvider = useRef();
   const [correctQuestion, setcorrectQuestion] = useState(false);
+  const [isSelecting, setIsSelecting] = useState(false);
+  const [selectedLetters, setSelectedLetters] = useState([]);
+  const [markedLetters, setMarkedLetters] = useState([]);
   
   const data = {
     across: {
