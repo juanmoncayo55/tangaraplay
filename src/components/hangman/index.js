@@ -98,10 +98,10 @@ var Hangman = function () {
         //Mi codigo
         const letras = this.WORD.split("");
         // Letras aleatorias a agregar
-        const letrasAleatorias = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+        const letrasAleatorias = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
         // Mezclar las letras aleatorias
-        for (let i = letrasAleatorias.length - 1; i > 0; i--) {
+        /*for (let i = letrasAleatorias.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 5));
             [letrasAleatorias[i], letrasAleatorias[j]] = [letrasAleatorias[j], letrasAleatorias[i]];
         }
@@ -114,14 +114,14 @@ var Hangman = function () {
                 palabraConLetrasAleatorias.push(letrasAleatorias.pop());
             }
             palabraConLetrasAleatorias.push(letras[i]);
-        }
+        }*/
         //this.phraseRandom = palabraConLetrasAleatorias;
 
         const containerLetter = document.querySelector("#letterAll");
         containerLetter.innerHTML = "";
-        for(let i = 0; i < palabraConLetrasAleatorias.length; i++){
+        for(let i = 0; i < letrasAleatorias.length; i++){
             containerLetter.insertAdjacentHTML('beforeend', `
-                <button class="flex-1 text-2xl bg-azulBrillante3 text-backgroundAzulOscuro font-bold px-2" id="handleLetterRandom_${i}">${palabraConLetrasAleatorias[i] || "L"}</button>`)
+                <button class="flex-1 text-xl bg-azulBrillante3 text-backgroundAzulOscuro font-bold px-1" id="handleLetterRandom_${i} cursor-pointer">${letrasAleatorias[i] || "L"}</button>`)
         }
     }
 

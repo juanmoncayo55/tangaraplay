@@ -1,22 +1,21 @@
-import React, {useState} from 'react'
-import {Link} from "react-router-dom";
+import React, { useState } from 'react';
 import Quiz from 'react-quiz-component';
 
-import HeadScore from "../utils/HeadScore.jsx";
-import {dataTrivia} from "./dataTrivia.js";
-import "./trivia.css";
+import HeadScore from '../utils/HeadScore';
+import { dataTrivia } from './dataTrivia';
+import "../trivia/trivia.css";
 
-const Trivia = () => {
+const TriviaMultiple = () => {
 	const [quizResult, setQuizResult] = useState({});
 	const [showResult, setShowResult] = useState(false);
 
 	const quizResultFn = data => {
-		console.log(data)
+		console.log(data);
 		setQuizResult(data);
 		setShowResult(true);
 	}
 
-	return (
+	return(
 		<>
 			<HeadScore title="RESPONDE LA TRIVIA ACORDE A LA INFORMACIÓN" />
 			<div className="container mx-auto px-5 flex flex-col">
@@ -35,12 +34,11 @@ const Trivia = () => {
 						<p className="text-white text-lg text-center">Preguntas Correctas: {quizResult.numberOfCorrectAnswers}</p>
 						<p className="text-white text-lg text-center">Preguntas Incorrectas: {quizResult.numberOfIncorrectAnswers}</p>
 						<p className="text-white text-lg text-center">Total Puntos: {quizResult.correctPoints} / {quizResult.totalPoints} </p>
-						<Link to="/hangman" className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2 mx-auto text-center mt-7">Siguiente</Link>
 					</div>
 				</>
 			) }
 		</>
-	)
+	);
 }
 
-export default Trivia
+export default TriviaMultiple

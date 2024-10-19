@@ -8,6 +8,7 @@ const hng = new Hangman();
 
 const HangmanComponent = () => {
   const [keyWord, setKeyWord] = useState("")
+  const [nextGame, setNextGame] = useState(false)
 
   useEffect(() => {
     hng.reset();
@@ -78,7 +79,7 @@ const HangmanComponent = () => {
                 </div>
             </div>
             {/* Zona de Botones Azules */}
-            <div id="letterAll" className="grid grid-cols-6 grid-rows-auto gap-3">
+            <div id="letterAll" className="grid grid-cols-7 grid-rows-auto gap-3">
                 
             </div>
             {/* Botones */}
