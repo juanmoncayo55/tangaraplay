@@ -9,6 +9,8 @@ import TriviaMultiple from "./components/triviaMultiple/TriviaMultiple.jsx";
 import Crucigrama from "./components/crucigrama/Crucigrama.jsx";
 import WordSearch from "./components/wordSearch/WordSearch.jsx";
 import SlidingPuzzle from "./components/puzzle-deslizante/SlidingPuzzle.jsx";
+import {imgs} from './components/memorama-cartas/data.js';
+import MemoramaCartas from "./components/memorama-cartas/MemoramaCartas.jsx";
 
 function App() {
 
@@ -26,6 +28,7 @@ function App() {
           <Link to="/crucigrama" className={styles.linkMenu}>Crucigrama</Link>
           <Link to="/wordSearch" className={styles.linkMenu}>WordSearch</Link>
           <Link to="/puzzle-deslizante" className={styles.linkMenu}>Sliding Puzzle</Link>
+          <Link to="/memorama-cartas" className={styles.linkMenu}>Memorama Cartas</Link>
         </nav>
         <Routes>
           <Route path="/" element={<Roulette />} />
@@ -34,6 +37,7 @@ function App() {
           <Route path="/hangman" element={<Hangman />} />
           <Route path="/area" element={<Area />} />
           <Route path="/puzzle-deslizante" element={<SlidingPuzzle numeroColumnas={3} maxMovimientos={100} urlImagen={'https://placedog.net/800/800?id=14'} />} />
+          <Route path="/memorama-cartas" element={<MemoramaCartas listaImagenes={imgs} />} />
           <Route path="/crucigrama" element={<Crucigrama />} />
           <Route path="/wordSearch" element={<WordSearch />} />
         </Routes>
