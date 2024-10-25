@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {WordPuzzleComponent} from "word-search-puzzle/WordPuzzleComponent";
-import "./crucigrama.css"
 
 //const answerWords = ["popayan", "territorio", "economia", "cultura", "diversidad"];
 const answerWords = ["example", "gurkan"];
