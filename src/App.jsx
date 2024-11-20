@@ -4,7 +4,6 @@ import {Routes, Route, Link} from "react-router-dom";
 import Roulette from "./components/roulette/Roulette";
 import Trivia from "./components/trivia/Trivia.jsx";
 import Hangman from "./components/hangman/Hangman.jsx";
-import Area from "./components/area/Area.jsx";
 import TriviaMultiple from "./components/triviaMultiple/TriviaMultiple.jsx";
 import Crucigrama from "./components/crucigrama/Crucigrama.jsx";
 import WordSearch from "./components/wordSearch/WordSearch.jsx";
@@ -99,7 +98,6 @@ const collapse = new Collapse(
           <Route path="/trivia" element={<Trivia />} />
           <Route path="/trivia-multiple" element={<TriviaMultiple />} />
           <Route path="/hangman" element={<Hangman />} />
-          <Route path="/area" element={<Area />} />
           <Route path="/puzzle-deslizante" element={<SlidingPuzzle numeroColumnas={3} maxMovimientos={100} urlImagen={'https://placedog.net/800/800?id=14'} />} />
           <Route path="/memorama-cartas" element={<MemoramaCartas listaImagenes={imgs} />} />
           <Route path="/tres-en-linea" element={<Board />} />
