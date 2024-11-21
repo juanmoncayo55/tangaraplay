@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import {WordPuzzleComponent} from "word-search-puzzle/WordPuzzleComponent";
 import { useSearchParams } from 'react-router-dom';
 import Gameboard from "./WordSearch/components/Gameboard";
-import "./crucigrama.css"
+import styles from "./wordsearch.module.css";
 
 //const answerWords = ["popayan", "territorio", "economia", "cultura", "diversidad"];
 const answerWords = ["example", "gurkan"];

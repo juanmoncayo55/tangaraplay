@@ -1,22 +1,48 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{html,js,ts,jsx,tsx,cjs,mjs,ts,cts,mts}",
   ],
   theme: {
     extend: {
-      colors: {
-        "azulBrillante1": "#28B1F2",
-        "azulBrillante2": "#00FFFF",
-        "azulBrillante3": "#01FCFE",
-        "backgroundAzulOscuro": "#2B3960",
-        "clEFEFEF": "#EFEFEF",
-        "cl379f": "#379FFE",
-        "verdeLimon": "#D1F203"
+      fontFamily: {
+        'sans': ['"Montserrat"', ...defaultTheme.fontFamily.sans],
+      },
+      colors:{
+        "gris-claro": "#EAEAEC",
+        "gris-claro-azul": "#F2F2F2",
+        "azul-claro": "#0079F2",
+        "azul-presionado": "#A3CEFA"
       }
     },
   },
-  plugins: [require('daisyui')],
+  daisyui: {
+    themes: [
+      {
+        light: {
+          ...require("daisyui/src/theming/themes")["light"],
+          primary: "#0F3F9E",
+          secondary: "#312B6B",
+          accent: "#DBF22D",
+          neutral: "#B8B8B8",
+          info: "#17FDE2",
+          success: "#DBF22E",
+          warning: "#3BDBA1",
+          error: "#F1273F",
+          "header .btn:hover": {
+            "background-color": "#F2F2F233"
+          }
+        },
+      },
+    ],
+  },
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('daisyui')
+  ],
 }
 
