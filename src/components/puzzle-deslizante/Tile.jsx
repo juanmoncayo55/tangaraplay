@@ -20,14 +20,12 @@ function Tile(props) {
     }
 
     return (
-       
         <div className={`tile ${tile + 1} index ${index}`}
              style={{...tileStyle, opacity: tile === tileCount - 1 ? 0 : 1}}
              onClick={() => handleTileClick(index)}
         >
             { showHelp && <span className="tile-number">{tile + 1}</span>}
         </div>
-           
     )
 }
 

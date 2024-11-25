@@ -6,6 +6,10 @@
     html {
         font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
+    body, #root{
+        background-color: #FFFFFF;
+        /* overflow-x: hidden; */
+    }
     @font-face {
         font-family: 'Montserrat';
         font-style: normal;

@@ -2,7 +2,7 @@ import logoGobCauca from '../assets/logo-gobernacion-cauca.svg';
 
 export default function Footer() {
   return (
-    <footer className='bg-primary w-screen py-4 rounded-t-badge'>
+    <footer className='bg-primary w-full py-4 rounded-t-badge'>
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
             <div className="w-auto">
                 <ul className="menu menu-horizontal gap-10">
