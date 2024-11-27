@@ -4,6 +4,8 @@ import { createBrowserRouter, RouterProvider} from 'react-router-dom'
 import App from './App.jsx'
 import './index.css'
 import Juegos from './Juegos.jsx'
+import WordSearch from './components/wordSearch/WordSearch.jsx'
+import HangmanComponent from './components/hangman/Hangman.jsx'
 
 const router = createBrowserRouter([
   {
@@ -13,6 +15,14 @@ const router = createBrowserRouter([
   {
     path: "/juegos/:tipoJuego/:oidJuego/:oidUsuario",
     element: <Juegos />
+  },
+  {
+    path: "/sopadeletras",
+    element: <WordSearch /> 
+  },
+  {
+    path: "/ahorcado",
+    element: <HangmanComponent />
   }
 ])
 

@@ -24,7 +24,7 @@ export const CREATE_GAMEOVER_MODAL_OPTIONS = (score, highScore, size, onPlayAgai
   };
 };
 
-export default function Gameboard({ size = [13, 15] }) {
+export default function Gameboard({ size = [13, 15], getListWord }) {
   const [debugMode, setDebugMode] = useState(false);
   const [table, setTable] = useState([]);
   const [wordlist, setWordlist] = useState([]);
@@ -67,29 +67,38 @@ export default function Gameboard({ size = [13, 15] }) {
     const [_table, _wordlist] = createPuzzle(size[0], size[1]);
     setTable(_table);
     setWordlist(_wordlist);
+    getListWord(_wordlist)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const resetGame = () => {
+    const [_table, _wordlist] = createPuzzle(size[0], size[1]);
+    setTable(_table);
+    setWordlist(_wordlist);
+    getListWord(_wordlist)
+  }
 
   return (
     <div id='gameboard' style={{ position: 'relative' }}>
       <div ref={gameboardRef} id='gameboard-center' className='user-select-none bg-white'>
-        <Header {...{ wordlist, windowSize, gameOver, size }} />
-          <Table
-            {...{
-              table,
-              gameOver,
-              debugMode,
-              size,
-              wordlist,
-              setWordlist,
-              windowSize,
-            }}
-          />
-        <WordList wordlist={wordlist}></WordList>
+        {/*<Header {...{ wordlist, windowSize, gameOver, size }} />*/}
+        <Table
+          {...{
+            table,
+            gameOver,
+            debugMode,
+            size,
+            wordlist,
+            setWordlist,
+            windowSize
+          }}
+          resetGame={resetGame}
+        />
+        {/*<WordList wordlist={wordlist}></WordList>*/}
       </div>
     </div>
   );
+  
 }
 
 function Header({ wordlist, gameOver, size }) {
@@ -98,8 +107,9 @@ function Header({ wordlist, gameOver, size }) {
   const [earned, setEarned] = useState(0);
   const startTime = useRef();
 
+  let wordlist2 = JSON.parse( localStorage.getItem("wordlist") );
   useEffect(() => {
-    const totalScore = wordlist.reduce((score, word) => {
+    const totalScore = wordlist2.reduce((score, word) => {
       if (!word.found) return score;
       const relativeTime = Math.max(Math.floor((word.foundAt - startTime.current) / 1000), 1);
       const calc = Math.floor((word.value.length * 250) / Math.log10(relativeTime * 10));
@@ -111,7 +121,8 @@ function Header({ wordlist, gameOver, size }) {
       setEarned(totalScore - prev);
       return totalScore;
     });
-  }, [wordlist, setScore, setEarned]);
+  }, [wordlist2, setScore, setEarned]);
+
 
   /* Este es el Header de la sopa de letras */
   return (
