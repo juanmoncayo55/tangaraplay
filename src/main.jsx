@@ -3,11 +3,16 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider} from 'react-router-dom'
 import App from './App.jsx'
 import './index.css'
+import Juegos from './Juegos.jsx'
 
 const router = createBrowserRouter([
   {
-    path: "/juego/:oidJuego/:oidUsuario",
+    path: "/",
     element: <App />
+  },
+  {
+    path: "/juegos/:tipoJuego/:oidJuego/:oidUsuario",
+    element: <Juegos />
   }
 ])
 

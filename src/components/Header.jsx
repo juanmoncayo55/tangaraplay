@@ -33,7 +33,7 @@ export default function Header() {
                         </div>
                     </div>
                     <div className="navbar-center">
-                        <img className='max-h-8 md:max-h-16' src={logoTangara} alt='' />
+                        <img className='max-h-12 2xl:max-h-16' src={logoTangara} alt='' />
                     </div>
                     <div className="navbar-end">
                         <button className="btn btn-ghost btn-circle">
