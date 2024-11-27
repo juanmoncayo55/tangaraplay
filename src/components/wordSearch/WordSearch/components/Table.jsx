@@ -1,16 +1,21 @@
-import React, { useState, useCallback, useRef, useMemo, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useCallback, useRef, useMemo, useEffect, useLayoutEffect, useContext } from 'react';
 import Highlight from './Highlight';
 import useEventListener from '../hooks/useEventListener';
 import { clamp } from '../utils/helperFunctions';
+import { ModalP } from './ModalP';
+import { WordSearchContext } from '../../WordSearch';
 
-export default function Table({ size, table, wordlist, setWordlist, debugMode, windowSize, gameOver }) {
+export default function Table({ size, table, wordlist, setWordlist, debugMode, windowSize, gameOver, resetGame }) {
   const [selection, setSelection] = useState([]);
+  const [gameOverP, setGameOverP] = useState(false);
   const tableRef = useRef({});
   const WordHighlighterRef = useRef([]);
   const isMouseDown = useRef(false);
   const prevInteraction = useRef();
   const mainRef = useRef();
   const boundary = useRef();
+  const { getListWord } = useContext(WordSearchContext);
+
 
   const setBoundary = useCallback(() => {
     const rect = mainRef.current.getBoundingClientRect();
@@ -90,6 +95,7 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
       match.found = true;
       match.foundAt = Date.now();
       setWordlist([...wordlist]);
+      getListWord([...wordlist])
     }
     setSelection([]);
   };
@@ -122,7 +128,6 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
 
     const value = cell.querySelector('p').innerText;
     const vectorArr = vector.split(',');
-    console.log(x, y, cell.offsetLeft, cell.offsetTop);
 
     handleSelection(cell, value, Number(vectorArr[0]), Number(vectorArr[1]));
   };
@@ -206,19 +211,35 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
     return wordlist.map((w, i) => {
       if (!(debugMode || w.found)) return null;
       const mark = WordHighlighterRef.current[i];
+
+      if( wordlist.every(e => e.found === true) ){
+        setGameOverP(true);
+      }
+
       return mark ? (
         <Highlight key={'hg' + i} start={mark.start} end={mark.end} windowSize={windowSize}></Highlight>
       ) : null;
     });
   }, [debugMode, windowSize, wordlist]);
 
+  const handleNewGame = () => {
+    resetGame()
+    setGameOverP(false)
+  }
+
   return (
-    <div id='table-wrapper' className='round-corner box-shadow' {...{ onTouchMove, onTouchStart, onMouseDown }}>
+    <div id='table-wrapper' className='round-corner' {...{ onTouchMove, onTouchStart, onMouseDown }}>
       <table className='table touch-action-none' ref={mainRef}>
         <tbody>{wordSearchTable}</tbody>
       </table>
       {selectionHighlight}
       {highlightedWords}
+
+      <ModalP
+        gameOver={gameOverP}
+        setGameOver={setGameOverP}
+        handleNewGame={handleNewGame}
+      />
     </div>
   );
 }

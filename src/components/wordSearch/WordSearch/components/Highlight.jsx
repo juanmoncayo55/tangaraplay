@@ -21,6 +21,7 @@ export default function Highlight({ start, end, className, windowSize }) {
     highlight.style.left = x1 + 'px';
     highlight.style.top = top + 'px';
     highlight.style.transform = `rotate(${ang}rad)`;
+    highlight.style.zIndex = `2`;
   }, [start, end, windowSize]);
 
   return <div className={className ? 'highlight ' + className : 'highlight'} ref={mainRef}></div>;

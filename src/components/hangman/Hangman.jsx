@@ -1,113 +1,211 @@
-import React, {useState, useEffect} from 'react'
-import {Link} from "react-router-dom";
-import Hangman from './index.js'
-import './index.css'
-import HeadScore from "../utils/HeadScore.jsx"
+import React, { useState, useEffect } from 'react';
+import Header from '../Header';
+import Footer from '../Footer';
+import Corazon from '../Corazon';
+import "./index.css"
+const Hangman = ({vidas = 3, movimientos}) => {
 
-const hng = new Hangman();
+  const palabrasGuardadas = ["casa", "carro", "perro", "gato", "estudiar", "tablero"];
+  
+  //Variables de estado que me ayudaran a controlar el registro de info de la api, los errores y el loading de la info.
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [vueltasCorazon, setVueltasCorazon] = useState(3);
 
-const HangmanComponent = () => {
-  const [keyWord, setKeyWord] = useState("")
-  const [nextGame, setNextGame] = useState(false)
+  //funcion que se ejecuta para llevar a cabo la consulta a la api
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api', {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          "oidJuego": 38,
+          "oidUsuario": 18
+        })
+      });
 
-  useEffect(() => {
-    hng.reset();
-    showBtns()
-  }, [])
+      if(response.status !== 200) throw new Error(`HTTP error! status: ${response.status}`);
 
-  const showBtns = () => {
-    const buttons = document.querySelectorAll("#letterAll button")
-    for(let i = 0; i < buttons.length ; i++){
-      buttons[i].addEventListener("click", function(e){
-        //console.log(e.target)
-        hng.guess(e.target.innerText)
-        
-        if( hng.responseLetter() < 0){
-          e.target.style.backgroundColor = "red"
-          e.target.style.color = "white"
-        }else{
-          e.target.style.backgroundColor = "green"
-          e.target.style.color = "white"
-        }
-      })
+      const result = await response.json();
+      
+      const gameData = {
+        "respuesta": result.RespuestaJuego.opcionRespuesta[0].opcion,
+        "pregunta": result.RespuestaJuego.pregunta,
+        "errores": result.RespuestaJuego.errores,
+        "intentos": result.RespuestaJuego.intentos
+      };
+
+      setData(gameData);
+      setError(null);
+    } catch(err) {
+      console.log(err)
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    document.getElementById("failedGame").innerHTML = "Tienes 3 Intentos"
-    document.getElementById("winner-hangman").innerText = ""
   }
 
+  const [palabraSecreta, setPalabraSecreta] = useState('');
+  const [inputsLetras, setInputsLetras] = useState([]);
+  const [intentosRestantes, setIntentosRestantes] = useState(3);
+  const [mensajeResultado, setMensajeResultado] = useState('');
 
-	return (
-		<>
-			<HeadScore title="Completa el nombre" />
-      <div className="container mx-auto px-2">
-  			<div id="hangm" className="md:w-1/2 mx-auto flex flex-col space-y-5">
-          <div>
-            <div id="hangm_end" className="h"></div>
+  const separarPalabra = () => {
+    // Verificar que data existe y tiene respuesta antes de continuar
+    if (data && data.respuesta) {
+      setPalabraSecreta(data.respuesta);
+      setIntentosRestantes(data.intentos);
+      setMensajeResultado('');
+
+      const inputsIniciales = data.respuesta.split('').map((letra, index) => ({
+        valor: index === 0 ? letra : '',
+        esCorrecta: index === 0,
+        bloqueado: index === 0
+      }));
+
+      setInputsLetras(inputsIniciales);
+    }
+  };
+
+  const verificarLetra = (index, valorIngresado) => {
+    const nuevosInputs = [...inputsLetras];
+    const letraCorrecta = palabraSecreta[index].toLowerCase();
+    
+    if (valorIngresado.toLowerCase() !== letraCorrecta) {
+      // Letra incorrecta
+      nuevosInputs[index] = { 
+        ...nuevosInputs[index], 
+        valor: valorIngresado, 
+        esCorrecta: false 
+      };
+      setIntentosRestantes(prev => prev - 1);
+    } else {
+      // Letra correcta
+      nuevosInputs[index] = { 
+        ...nuevosInputs[index], 
+        valor: valorIngresado, 
+        esCorrecta: true 
+      };
+    }
+
+    setInputsLetras(nuevosInputs);
+
+    // Verificar condiciones de victoria o derrota
+    if (intentosRestantes - 1 === 0) {
+      setVueltasCorazon(prev => prev -1);
+      console.log(vueltasCorazon)
+      //setMensajeResultado(`¡Perdiste! La palabra era: ${palabraSecreta}`);
+      setIntentosRestantes(3)
+      //separarPalabra()
+    }
+
+    if(vueltasCorazon < 1){
+      bloquearInputs();
+      setIntentosRestantes(0);
+    }
+
+    // Verificar si se completó la palabra
+    const palabraAdivinada = nuevosInputs.every((input, i) => 
+      input.valor.toLowerCase() === palabraSecreta[i].toLowerCase()
+    );
+
+    if (palabraAdivinada) {
+      setMensajeResultado('¡Felicidades! Has adivinado la palabra.');
+      bloquearInputs();
+    }
+  };
+
+  const bloquearInputs = () => {
+    const inputsBloqueados = inputsLetras.map(input => ({
+      ...input,
+      bloqueado: true
+    }));
+    setInputsLetras(inputsBloqueados);
+  };
+
+  const handleInputChange = (index, evento) => {
+    const valorIngresado = evento.target.value;
+    verificarLetra(index, valorIngresado);
+  };
+
+  // Modificar useEffect para llamar a separarPalabra cuando los datos estén listos
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // Otro useEffect para manejar cuando los datos cambian
+  useEffect(() => {
+    if (data) {
+      separarPalabra();
+    }
+  }, [data]);
+
+  if(error) return <div>Error: {error}</div>
+
+  return (
+    <div className="flex flex-col justify-between flex-nowrap items-center min-h-screen md:min-h-px md:h-screen">
+      <Header />
+      <main className="grow w-full flex flex-col">
+        <header className="w-full bg-gris-claro-azul py-2">
+          <div className="container mx-auto text-center">
+            <h1 className="text-secondary text-3xl">Ahorcado</h1>
           </div>
-
-
-          {/* Esta Zona no la toco pero debe estar ahi (Esta oculta) */}
-          <div id="hangm_animation" className="hidden">
-            <div id="hangm_2" className="h pole_h"></div>
-            <div id="hangm_1" className="h pole_v"></div>
-
-            <div id="hangm_3" className="h rope"></div>
-
-            <div id="hangm_4" className="h man_head"></div>
-            <div id="hangm_5" className="h man_upper"></div>
-            <div id="hangm_6" className="h man_lower"></div>
-          </div>
-          {/* Aqui termina (Esta oculta) */}
-
-          <img src="/images/cristiano_ronaldo.jpg" className="w-8/12 mx-auto" />
-
-          <div className='text-white text-center text-xl' id="failedGame">Tienes 3 Intentos</div>
-
-          <div>
-            <p className="text-white text-xl" id="winner-hangman"></p>
-          </div>
-
-          <div>
-            <div id="hangm_guesses" className="h text-white text-xl font-semibold"></div>
-          </div>
-
-            {/* Zona de Botones Blancos */}
-            <div id="hangm_guessbox" className="h">
-                <div>
-                    <div id="hangm_word" className="text-white font-bold"></div>
+        </header>
+        <section className="grow container mx-auto flex flex-col min-h-screen md:flex-row xl:justify-start space-x-0 md:space-x-12 space-y-8 md:space-y-0 px-4 lg:px-16 xxl:px-0 pb-12">
+          {/* info */}
+          <aside className="w-full md:w-1/2 h-full 2xl:h-2/3 flex flex-col space-y-6 md:space-y-14 justify-between items-center">
+            <div className="flex bg-primary text-white rounded-b-3xl w-4/5 md:w-2/3 h-1/3 max-h-max p-2 pt-8 divide-x-2">
+              <div className="w-1/2 flex flex-col justify-end items-center">
+                <div className="vidas flex space-x-2 mb-4">
+                  {Array.from({ length: vueltasCorazon}).map((vida,index) => <Corazon key={index}/>)}
                 </div>
+                <div className="text-sm">Vidas</div>
+              </div>
+              <div className="w-1/2 flex flex-col justify-end items-center">
+                <div className="movimientos text-4xl mb-2">{intentosRestantes}</div>
+                <div className="text-sm">Intentos</div>
+              </div>
             </div>
-            {/* Zona de Botones Azules */}
-            <div id="letterAll" className="grid grid-cols-7 grid-rows-auto gap-3">
-                
+            <div className={`bg-gris-claro-azul rounded-3xl w-full h-2/3 max-h-max xl:max-h-full p-6 md:p-12 justify-center flex flex-col items-center ${loading && 'skeleton'}`}>
+              {!loading && (<p className='text-secondary text-2xl text-center'>{data.pregunta}</p>)}
             </div>
-            {/* Botones */}
-            <div className="col-sm-3">
-  						<div className="container mx-auto px-5 flex justify-between gap-4">
-  							<button
-  							 className="bg-white text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2"
-  							>Volver</button>
-  							<Link className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2 text-center" onClick={() => {
-                  	hng.reset();
-                    showBtns()
-                  	return false;
-              	} }>Jugar</Link>
-  						</div>
+          </aside>
+          {/* juego */}
+          <div className="w-full md:w-1/2 h-full 2xl:h-2/3 flex justify-center items-center pt-12">
+            <div className={`aspect-square h-full max-h-96 xl:max-h-full flex items-center justify-center ${loading && 'skeleton'}`}>
+              { loading ? null
+                 : (<div className="inputs-container">
+                       {inputsLetras.map((input, index) => (
+                         <input
+                           key={index}
+                           type="text"
+                           maxLength={1}
+                           value={input.valor}
+                           onChange={(e) => handleInputChange(index, e)}
+                           readOnly={input.bloqueado}
+                           style={{
+                             //backgroundColor: input.esCorrecta === false ? 'red' : input.esCorrecta ? 'green' : 'white',
+                             margin: '0 5px'
+                           }}
+                           className="short_input bottom_line"
+                         />
+                       ))}
+                     </div>) 
+              }
             </div>
-        </div>
-      </div>
-		</>
-	)
-}
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
-/*
-onKeyUp={(e) => {
-  console.log(e.key)
-  hng.guess(e.key);
-  document.getElementById("guess").value = ""
-  return false;
-} }
-*/
-
-export default HangmanComponent
+export default Hangman;
+/*{mensajeResultado && (
+  <div className="mensaje-resultado">
+    {mensajeResultado}
+  </div>
+)}*/
