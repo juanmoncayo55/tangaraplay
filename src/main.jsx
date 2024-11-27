@@ -5,6 +5,7 @@ import App from './App.jsx'
 import './index.css'
 import WordSearch from './components/wordSearch/WordSearch.jsx'
 import HangmanComponent from './components/hangman/Hangman.jsx'
+import Crucigrama from "./components/crucigrama/Crucigrama.jsx"
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/ahorcado",
     element: <HangmanComponent />
+  },
+  {
+    path: "/crucigrama",
+    element: <Crucigrama />
   },
 ])
 
