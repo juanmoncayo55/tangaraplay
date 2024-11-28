@@ -4,7 +4,6 @@ import useEventListener from '../hooks/useEventListener';
 import { clamp } from '../utils/helperFunctions';
 import { ModalP } from './ModalP';
 import { WordSearchContext } from '../../WordSearch';
-
 export default function Table({ size, table, wordlist, setWordlist, debugMode, windowSize, gameOver, resetGame }) {
   const [selection, setSelection] = useState([]);
   const [gameOverP, setGameOverP] = useState(false);
@@ -14,7 +13,7 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
   const prevInteraction = useRef();
   const mainRef = useRef();
   const boundary = useRef();
-  const { getListWord } = useContext(WordSearchContext);
+  const { getListWord, setMoves } = useContext(WordSearchContext);
 
 
   const setBoundary = useCallback(() => {
@@ -96,6 +95,10 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
       match.foundAt = Date.now();
       setWordlist([...wordlist]);
       getListWord([...wordlist])
+    }else{
+      //Aqui Fueeeeeeeeeeeeeeeee
+      setMoves(prev => prev - 1);
+      console.log("kasndaklsndklanskd")
     }
     setSelection([]);
   };
@@ -128,6 +131,7 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
 
     const value = cell.querySelector('p').innerText;
     const vectorArr = vector.split(',');
+    //console.log(x, y, cell.offsetLeft, cell.offsetTop);
 
     handleSelection(cell, value, Number(vectorArr[0]), Number(vectorArr[1]));
   };
@@ -167,6 +171,8 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
   useEventListener('touchend', () => {
     prevInteraction.current = null;
     onSelectionEnd();
+    // AQUI FUEEEEEEEEEEEE
+    console.log("touchend")
   });
   useEventListener('mousemove', onMouseMove);
 

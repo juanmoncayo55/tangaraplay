@@ -21,7 +21,8 @@ export async function fetchData(oidJuego,oidUsuario){
         "errores": 10,
         // "errores": result.RespuestaJuego.errores,
         "intentos": result.RespuestaJuego.intentos,
-        "puntos": result.RespuestaJuego.puntos
+        "puntos": result.RespuestaJuego.puntos,
+        "respuesta": result.RespuestaJuego.opcionRespuesta[0].opcion,
       };
     } catch (err) {
         console.log(err);

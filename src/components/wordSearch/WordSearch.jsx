@@ -16,6 +16,8 @@ export const WordSearchContext = createContext();
 const WordSearch = ({vidas = 3, movimientos}) => {
   const [query, setQuery] = useSearchParams({ size: '10*10' });
   const [listal, setListaL] = useState([]);
+  const [moves, setMoves] = useState(10);
+  const [vueltasCorazon, setVueltasCorazon] = useState(3);
 
   const error = console.error;
   console.error = (...args) => {
@@ -41,8 +43,20 @@ const WordSearch = ({vidas = 3, movimientos}) => {
 
   const getListWord = (data) => setListaL(data);
 
+  useEffect(() => {
+    if(moves == 0 && vueltasCorazon >= 1){
+      setMoves(10);
+      setVueltasCorazon(prev => prev - 1);
+    }
+
+    if(vueltasCorazon === 0){
+      setMoves(0)
+      alert("Persite perdiste")
+    }
+  }, [moves]);
+
   return(
-    <WordSearchContext.Provider value={{getListWord, listal}}>
+    <WordSearchContext.Provider value={{getListWord, listal, setMoves}}>
       <div className="flex flex-col justify-between flex-nowrap items-center min-h-screen md:min-h-px md:h-screen">
         <Header />
         <main className="grow w-full flex flex-col">
@@ -57,12 +71,12 @@ const WordSearch = ({vidas = 3, movimientos}) => {
               <div className="flex bg-primary text-white rounded-b-3xl w-4/5 md:w-2/3 h-1/3 max-h-max p-2 pt-8 divide-x-2">
                 <div className="w-1/2 flex flex-col justify-end items-center">
                   <div className="vidas flex space-x-2 mb-4">
-                    {Array.from({ length: vidas}).map((vida,index) => <Corazon key={index}/>)}
+                    {Array.from({ length: vueltasCorazon}).map((vida,index) => <Corazon key={index}/>)}
                   </div>
                   <div className="text-sm">Vidas</div>
                 </div>
                 <div className="w-1/2 flex flex-col justify-end items-center">
-                  <div className="movimientos text-4xl mb-2">20</div>
+                  <div className="movimientos text-4xl mb-2">{moves}</div>
                   <div className="text-sm">Movimientos</div>
                 </div>
               </div>

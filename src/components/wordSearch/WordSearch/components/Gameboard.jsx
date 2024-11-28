@@ -78,6 +78,8 @@ export default function Gameboard({ size = [13, 15], getListWord }) {
     getListWord(_wordlist)
   }
 
+
+
   return (
     <div id='gameboard' style={{ position: 'relative' }}>
       <div ref={gameboardRef} id='gameboard-center' className='user-select-none bg-white'>
