@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { GameContext } from '../../Juegos';
 import "./index.css"
 
-const Hangman = ({vidas = 3, movimientos}) => {
-  const { data, moves, handleMoves } = useContext(GameContext);
+const Hangman = () => {
+  const { data, moves, handleMoves, boardSize, setWinner } = useContext(GameContext);
 
-  //const palabrasGuardadas = ["casa", "carro", "perro", "gato", "estudiar", "tablero"];
-  
   //Variables de estado que me ayudaran a controlar el registro de info de la api, los errores y el loading de la info.
   const [vueltasCorazon, setVueltasCorazon] = useState(3);
   const [palabraSecreta, setPalabraSecreta] = useState('');
@@ -118,7 +116,7 @@ const Hangman = ({vidas = 3, movimientos}) => {
     if (data) {
       separarPalabra();
     }
-  }, []);
+  }, [data]);
 
   return (
     <div className="w-full flex justify-center items-center pt-12">
@@ -146,8 +144,3 @@ const Hangman = ({vidas = 3, movimientos}) => {
 };
 
 export default Hangman;
-/*{mensajeResultado && (
-  <div className="mensaje-resultado">
-    {mensajeResultado}
-  </div>
-)}*/

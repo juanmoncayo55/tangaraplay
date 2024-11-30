@@ -1,5 +1,6 @@
 import Header from "./components/Header"
 import Footer from "./components/Footer"
+import MenuJuegos from "./components/MenuJuegos"
 
 export default function App() {
 
@@ -12,8 +13,8 @@ export default function App() {
             <h1 className="text-secondary text-3xl">Juegos</h1>
           </div>
         </header>
-        <section className="grow container mx-auto flex flex-col md:flex-row xl:justify-start space-x-0 md:space-x-12 space-y-8 md:space-y-0 px-4 lg:px-16 xxl:px-0 pb-12">
-          
+        <section className="grow container mx-auto flex justify-center items-center px-4 lg:px-16 xxl:px-0 pb-12">
+          <MenuJuegos display="cards" />
         </section>
       </main>
       <Footer />

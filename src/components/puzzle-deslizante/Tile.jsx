@@ -1,7 +1,7 @@
 import { getMatrixPosition, getVisualPosition } from "./helpers";
 
 function Tile(props) {
-    const { tile, tileCount, index, width, height, imgTile, gridSize, handleTileClick, showHelp } = props;
+    const { tile, tileCount, index, width, height, imgTile, gridSize, handleTileClick } = props;
 
     const boardPadding = 1;
     const tileWidth = Math.floor(width) - boardPadding;
@@ -24,7 +24,7 @@ function Tile(props) {
              style={{...tileStyle, opacity: tile === tileCount - 1 ? 0 : 1}}
              onClick={() => handleTileClick(index)}
         >
-            { showHelp && <span className="tile-number">{tile + 1}</span>}
+            <span className="tile-number opacity-0">{tile + 1}</span>
         </div>
     )
 }

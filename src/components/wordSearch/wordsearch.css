@@ -1,5 +1,5 @@
 body{
-  --bg-color: aliceblue;
+   --bg-color: aliceblue;
   --font-color: black;
   --subtle-font-color: gray;
   --prime-color: rgb(8, 137, 244);
@@ -22,8 +22,9 @@ body{
 
   --toggle-color: rgb(51, 51, 51);
   --toggle-bg-color: rgb(204, 204, 204);
-  --toggle-lever-color: yellow;
+  --toggle-lever-color: yellow; 
 }
+
 #gameboard {
   display: flex;
   flex-direction: column;
@@ -440,7 +441,5 @@ body{
   .wordlist{
     flex-basis: 100%;
   }
-  .wordlist{
 
-  }
 }

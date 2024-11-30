@@ -2,7 +2,7 @@ export async function fetchData(oidJuego,oidUsuario){
     try {
       const response = await fetch('/api', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json',},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           "oidJuego":oidJuego,
           "oidUsuario":oidUsuario
@@ -15,14 +15,16 @@ export async function fetchData(oidJuego,oidUsuario){
       if (contentType && contentType.indexOf("application/json") === -1)throw new Error('No se pudo cargar el Juego, vuelve a cargar la página');
       const result = await response.json();
 
+      let opcionResp = "opcionRespuesta" in result.RespuestaJuego ? result.RespuestaJuego.opcionRespuesta[0].opcion : undefined;
+
       return {
-        "pregunta":result.RespuestaJuego.pregunta,
-        "url": result.RespuestaJuego.imagen, 
+        "pregunta": result.RespuestaJuego.pregunta,
+        "url": result.RespuestaJuego.imagen,
         "errores": 10,
         // "errores": result.RespuestaJuego.errores,
         "intentos": result.RespuestaJuego.intentos,
         "puntos": result.RespuestaJuego.puntos,
-        "respuesta": result.RespuestaJuego.opcionRespuesta[0].opcion,
+        "respuesta": opcionResp
       };
     } catch (err) {
         console.log(err);
