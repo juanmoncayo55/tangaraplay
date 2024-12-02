@@ -1,89 +1,10 @@
-export default function initCrosswordGame() {
-  var ttss = [
-      {
-         "word": "tangara",
-         "clue": "Nombre del Sistema de Información Socioeconómico del Cauca"
-      } , {
-           "word": "planeacion",
-           "clue": "Dependencia que hace parta el Sistema de Información"
-      },
-      {
-           "word": "popayan",
-           "clue": "Capital del Departamento del Cauca"
-      },
-      {
-           "word": "purace",
-           "clue": "Parque nacional con un volcán famoso"
-      },
-      {
-           "word": "coconuco",
-           "clue": "Termales conocidos en el Cauca."
-      },
-      {
-           "word": "mazamorra",
-           "clue": "Ultimo Municipio creado en el Departamento del Cauca"
-      },
-      {
-          "word": "bambuco",
-          "clue": "Baile folclórico colombiano."
-      },
-      {
-          "word": "patia",
-          "clue": "Valle del Cauca es conocido por ser una de las zonas más cálidas y áridas del departamento"
-      },
-      {
-          "word": "empanadas",
-          "clue": "Plato típico de la región"
-      },
-      {
-          "word": "chirimia",
-          "clue": "Música tradicional del Pacífico."
-      },
-      {
-          "word": "octavioguzman",
-          "clue": "Nombre del Gobernador de Cuaca"
-      },
-      {
-          "word": "cauca",
-          "clue": "Departamento del suroccidente de Colombia"
-      },
-      {
-          "word": "saman",
-          "clue": "Árbol típico de la región."
-      },
-      {
-          "word": "yanaconas",
-          "clue": "Grupo indígena del Cauca."
-      },
-      {
-          "word": "fique",
-          "clue": "Planta se usa para fabricar artesanías y cordeles en el Cauca"
-      },
-      {
-          "word": "achiras",
-          "clue": "Planta se extrae una harina para preparar galletas tradicionales "
-      },
-      {
-          "word": "huila",
-          "clue": "Río atraviesa parte del Cauca antes de desembocar en el "
-      },
-      {
-          "word": "nasa",
-          "clue": "Nombre de otro grupo indígena predominante en el departamento"
-      },
-      {
-          "word": "belen",
-          "clue": "Capilla que ofrece una vista panorámica de Popayán"
-      },
-      {
-          "word": "ñapangas",
-          "clue": "Nombre reciben las mujeres indígenas de vestimenta tradicional en el Cauca"
-      },
-      {
-          "word": "cuchuco",
-          "clue": "Sopa espesa, a base de trigo, es popular en la cocina caucana"
-      }
-  ]
+export default function initCrosswordGame(data) {
+  const transform = data.respuesta.map(({ pregunta, respuesta, ...resto }) => ({
+    clue: pregunta,
+    word: respuesta,
+    ...resto
+  }));
+  var ttss = transform
 
   let appdata = {
     maincolor: "2a797a",
@@ -203,15 +124,6 @@ export default function initCrosswordGame() {
     })
   }
 
-  function typeclick(e){
-    let arrPreguntas = JSON.parse( localStorage.getItem("question") );
-    let position = parseInt(e.parentNode.dataset.question.charAt(0));
-    arrPreguntas.forEach(pregunta => {
-      if(pregunta.p === parseInt(position)){
-        document.querySelector("#question").innerText = pregunta.q;
-      }
-    })
-  }
   // Llamada inicial
   if (localStorage.getItem("ttsasyik") === null) {
     saveData();
@@ -227,5 +139,4 @@ export default function initCrosswordGame() {
     }),
     $("#game").css("display", "flex")
   }, 2000)
-
 }

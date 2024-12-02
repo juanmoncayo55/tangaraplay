@@ -13,12 +13,12 @@ const Hangman = () => {
   const separarPalabra = () => {
     console.log(data)
     // Verificar que data existe y tiene respuesta antes de continuar
-    if (data && data.respuesta) {
-      setPalabraSecreta(data.respuesta);
+    if (data && data.respuesta[0].opcion) {
+      setPalabraSecreta(data.respuesta[0].opcion);
       handleMoves(data.errores);
       setVueltasCorazon(data.intentos)
 
-      const inputsIniciales = data.respuesta.split('').map((letra, index) => ({
+      const inputsIniciales = data.respuesta[0].opcion.split('').map((letra, index) => ({
         valor: index === 0 ? letra : '',
         esCorrecta: index === 0,
         bloqueado: index === 0

@@ -14,9 +14,10 @@ import VidasMovimientos from "./components/VidasMovimientos"
 import Pregunta from "./components/Pregunta"
 import GanasteModal from "./components/GanasteModal"
 import FallasteModal from "./components/FallasteModal"
+import Crucigrama from "./components/crucigrama/Crucigrama"
 
 export const GameContext = createContext();
-
+let cont = 0;
 export default function Juegos() {
 
   const { tipoJuego, oidJuego, oidUsuario } = useParams();
@@ -39,6 +40,7 @@ export default function Juegos() {
       case 'trivia-multiple': game = <TriviaMultiple />;break;
       case 'ahorcado': game = <Hangman />;break;
       case 'rompecabezas': game = <SlidingPuzzle />;break;
+      case 'crucigrama': game = <Crucigrama />;break;
       default:break;
     }
     return game;
@@ -46,6 +48,12 @@ export default function Juegos() {
 
   function handleMoves(totalMoves,hasWon) {
     setMoves(totalMoves);
+    console.log(totalMoves)
+    if(totalMoves === 0){
+      cont = cont + 1;
+      setLostAttempts(prev => prev + 1);
+      if(cont === data.intentos){ setGameStatus('fallaste'); alet("Fallaste") }
+    }
     if(moves === 1){
       setLostAttempts(lostAttempts + 1);
       if(lostAttempts === data.intentos - 1 )setGameStatus('fallaste');
@@ -73,7 +81,7 @@ export default function Juegos() {
         }
       }, 2000);
     })();
-  }, [oidJuego, oidUsuario]);
+  }, [oidJuego,]);
   
   // set responsive board game size
   useEffect(() => {

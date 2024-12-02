@@ -9,13 +9,13 @@ export default function MenuJuegos({ display = "list" }) {
         { name: "Ahorcado", tipoJuego: "ahorcado", oidJuego: "13", oidUsuario: "18" },
         { name: "Rompecabezas", tipoJuego: "rompecabezas", oidJuego: "61", oidUsuario: "18" },
         { name: "Memoria", tipoJuego: "memoria", oidJuego: "", oidUsuario: "" },
-        { name: "Crucigrama", tipoJuego: "crucigrama", oidJuego: "", oidUsuario: "" },
+        { name: "Crucigrama", tipoJuego: "crucigrama", oidJuego: "98", oidUsuario: "18" },
         { name: "Sopa de letras", tipoJuego: "sopa-de-letras", oidJuego: "", oidUsuario: "" }
     ];
 
     const navigate = useNavigate();
 
-    const disabledGames = ['memoria', 'crucigrama', 'sopa-de-letras'];
+    const disabledGames = ['memoria', 'sopa-de-letras'];
 
     return (
         <>

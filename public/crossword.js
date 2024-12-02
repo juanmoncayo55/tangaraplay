@@ -493,92 +493,48 @@ var CrosswordUtils = {
 };
 
 
-var selectedua = -1; //$("#vkeyboard").show()
-  let wordC = [];
-  function typechar(e) {
-    $("#" + selectedua) .html(e.value)
-    $("#vkeyboard") .hide()
-
-    /* Validacion para ver si la letra agregada es correcta o incorreta */
-    if(e.parentNode.querySelector(".canswer").textContent === e.value){
-      e.parentNode.style.backgroundColor = "#0079F2"; //correcto
-      e.style.color = "#fff"; //incorrecto
-    }else if(e.parentNode.querySelector(".canswer").textContent !== e.value){
-      e.parentNode.style.backgroundColor = "#F1273F"; //incorrecto
-      e.style.color = "#fff"; //incorrecto
-    }else{
-      e.parentNode.style.backgroundColor = "#FFF"; //por defecto
-    }
-
-    /* validacion para ver si las letras escritas son todas correctas */
-    let allTds = document.querySelectorAll(".crossword td:not(.no-border)");
-    allTds.forEach(td => {
-      if(td.style.backgroundColor === "rgb(0, 121, 242)" && e.parentNode === td){//Si el color del td es correcto
-
-        wordC.push(td)
-
-        if(wordC.length === allTds.length){
-          alert("Completo el crucigrama")
+var selectedua = -1;
+var wordC = [];
+window.wordIncorrect = 0;
+function typechar(e) {
+    // Verificar si se ha agregado una letra (no borrado)
+    if (e.value.length > 0) {
+        $("#" + selectedua).html(e.value)
+        $("#vkeyboard").hide()
+        
+        /* Validacion para ver si la letra agregada es correcta o incorreta */
+        if(e.parentNode.querySelector(".canswer").textContent === e.value){
+            e.parentNode.style.backgroundColor = "#0079F2"; //correcto
+            e.style.color = "#fff"; //correcto
+        } else {
+            e.parentNode.style.backgroundColor = "#F1273F"; //incorrecto
+            e.style.color = "#fff"; //incorrecto
+            window.wordIncorrect = window.wordIncorrect + 1;
+            if(window.externalFunction){
+                window.externalFunction(window.wordIncorrect)
+            }
         }
-      }
-    })
-  }
+        
+        /* validacion para ver si las letras escritas son todas correctas */
+        let allTds = document.querySelectorAll(".crossword td:not(.no-border)");
+        
+        allTds.forEach(td => {
+            if(td.style.backgroundColor === "rgb(0, 121, 242)" && e.parentNode === td){
+                wordC.push(td)
+                if(wordC.length === allTds.length){
+                    alert("Completo el crucigrama")
+                }
+            }
+        })
+    }
+}
 
-  function typeclick(e){
+function typeclick(e){
     let arrPreguntas = JSON.parse( localStorage.getItem("question") );
     let position = parseInt(e.parentNode.dataset.question.charAt(0));
     arrPreguntas.forEach(pregunta => {
       if(pregunta.p === parseInt(position)){
-        document.querySelector("#question").innerText = pregunta.q;
+        document.querySelector("#preguntaDiv").innerText = pregunta.q;
       }
     })
-  }
-
-
-/*
-var CrosswordUtils = {
-    PATH_TO_PNGS_OF_NUMBERS : "numbers/",
-
-    toHtml : function(grid, show_answers){
-        if(grid == null) return;
-        var html = [];
-        html.push("<table class='crossword'>");
-        var label = 1;
-        var uanum = 0;
-
-        for(var r = 0; r < grid.length; r++){
-            html.push("<tr>");
-            for(var c = 0; c < grid[r].length; c++){
-                var cell = grid[r][c];
-                var is_start_of_word = false;
-                if(cell == null){
-                    var char = "&nbsp;";
-                    var css_class = "no-border";
-                } else {
-                    var char = cell['char'];
-                    var css_class = "";
-                    var is_start_of_word = (cell['across'] && cell['across']['is_start_of_word']) || (cell['down'] && cell['down']['is_start_of_word']);
-                }
-                if(is_start_of_word) {
-                    var img_url = CrosswordUtils.PATH_TO_PNGS_OF_NUMBERS + label + ".png";
-                    html.push("<td class='" + css_class + "relative' title='" + r + ", " + c + "' style=\"background-image:url('" + img_url + "')\" data-position='"+label+"'>");
-                    label++;      
-                } else {
-                    html.push("<td class='" + css_class + " relative' title='" + r + ", " + c + "'>");
-                }
-
-                if(show_answers) {
-                    html.push("<input type='text' width='25' class='"+css_class+" input' oninput='typechar(this)' maxlength='1' onclick='typeclick(this)' /> <span class='canswer none' id='chart"+uanum+"'>" + char + "</span><span class='uanswer none' id='ua"+uanum+"'></span>");
-                    uanum++;
-                } else {
-                    html.push("&nbsp;");                
-                }
-            }
-            html.push("</tr>");
-        }
-
-        html.push("</table>");
-        return html.join("\n");
-    }
 }
-*/

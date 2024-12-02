@@ -15,7 +15,8 @@ export async function fetchData(oidJuego,oidUsuario){
       if (contentType && contentType.indexOf("application/json") === -1)throw new Error('No se pudo cargar el Juego, vuelve a cargar la página');
       const result = await response.json();
 
-      let opcionResp = "opcionRespuesta" in result.RespuestaJuego ? result.RespuestaJuego.opcionRespuesta[0].opcion : undefined;
+      //con in verifico si "opcionRespuesta existe dentro del objeto result.RespuestaJuego"
+      let opcionResp = "opcionRespuesta" in result.RespuestaJuego ? result.RespuestaJuego.opcionRespuesta : undefined
 
       return {
         "pregunta": result.RespuestaJuego.pregunta,
