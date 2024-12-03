@@ -16,7 +16,9 @@ export async function fetchData(oidJuego,oidUsuario){
       const result = await response.json();
 
       //con in verifico si "opcionRespuesta existe dentro del objeto result.RespuestaJuego"
-      let opcionResp = "opcionRespuesta" in result.RespuestaJuego ? result.RespuestaJuego.opcionRespuesta : undefined
+      let opcionResp = "opcionRespuesta" in result.RespuestaJuego ? result.RespuestaJuego.opcionRespuesta : undefined;
+      let tipoResp = "tipoRespuesta" in result.RespuestaJuego ? result.RespuestaJuego.tipoRespuesta : undefined;
+      let tipoMec= "tipoMecanica" in result.RespuestaJuego ? result.RespuestaJuego.tipoMecanica : undefined;
 
       return {
         "pregunta": result.RespuestaJuego.pregunta,
@@ -25,7 +27,9 @@ export async function fetchData(oidJuego,oidUsuario){
         // "errores": result.RespuestaJuego.errores,
         "intentos": result.RespuestaJuego.intentos,
         "puntos": result.RespuestaJuego.puntos,
-        "respuesta": opcionResp
+        "respuesta": opcionResp,
+        "tipoRespuesta": tipoResp,
+        "tipoMecanica": tipoMec
       };
     } catch (err) {
         console.log(err);

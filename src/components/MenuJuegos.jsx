@@ -4,7 +4,7 @@ export default function MenuJuegos({ display = "list" }) {
 
     const items = [
         { name: "Ruleta", tipoJuego: "ruleta", oidJuego: "8", oidUsuario: "18" },
-        { name: "Trivia", tipoJuego: "trivia", oidJuego: "44", oidUsuario: "18" },
+        { name: "Trivia", tipoJuego: "trivia", oidJuego: "11", oidUsuario: "18" },
         { name: "Trivia Multiple", tipoJuego: "trivia-multiple", oidJuego: "71", oidUsuario: "18" },
         { name: "Ahorcado", tipoJuego: "ahorcado", oidJuego: "13", oidUsuario: "18" },
         { name: "Rompecabezas", tipoJuego: "rompecabezas", oidJuego: "61", oidUsuario: "18" },

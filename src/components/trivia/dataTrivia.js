@@ -1,7 +1,4 @@
 export const dataTrivia = {
-	"appLocale": {
-	  "nextQuestionBtn": "Siguiente"
-	},
   "questions": [
   	{
 			"question": "Gira la ruleta y Acepta el reto",

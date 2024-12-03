@@ -127,7 +127,7 @@ export default function Juegos() {
           {/* info */}
           <div className="w-full md:w-1/2 h-full 2xl:h-2/3 flex flex-col space-y-6 md:space-y-14 justify-between items-center">
             <VidasMovimientos vidas={data.intentos} errores={lostAttempts} movimientos={moves} />
-            <Pregunta pregunta={data.pregunta} isLoading={loading} />            
+            <Pregunta pregunta={data.pregunta} isLoading={loading} photo={data.url} />            
           </div>
 
           {/* juego */}

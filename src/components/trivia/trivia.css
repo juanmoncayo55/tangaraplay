@@ -1,30 +1,49 @@
-.questionWrapperBody .tag-container, .questionWrapperBody div:first-child{display: none;}
+.questionWrapperBody .tag-container, .questionWrapperBody div:first-child{display: none !important;}
 .questionWrapperBody h3{
 	/*
 		bg-verdeLimon rounded-2xl py-4
 		text-black uppercase text-lg font-semibold text-center
 	*/
-	background-color: #D1F203;
-	border-radius: 15px;
-	padding: 25px 10px;
 	text-align: center;
 	font-size: 18px;
-	color: #2B3960;
-	font-weight: bold;
-	text-transform: uppercase;
+	color: #312B6B;
 	text-wrap: balance;
 	margin-bottom: 30px;
 }
 
 /*bg-white rounded-3xl text-backgroundAzulOscuro uppercase text-xl text-center font-bold py-3*/
 .questionWrapperBody .answerBtn.btn{
-	background-color: white;
-	border-radius: 25px;
-	color: #2B3960;
+	background-color: #EAEAEC;
+	border-radius: 15px !important;
+	color: #312B6B;
 	text-transform: uppercase;
-	font-size: 20px;
-	text-align: center;
-	font-weight: bold;
+	font-size: 18px !important;
+	text-align: center !important;
+	font-weight: 500;
+	border: 0 !important;
+	margin-bottom: 15px !important;
+}
+.questionWrapperBody .answerBtn.btn:hover{
+	animation: bounce 0.6s ease 2;
+}
+
+
+@keyframes bounce {
+  0% {
+    transform: scale(1); /* Tamaño inicial */
+  }
+  30% {
+    transform: scale(1.03); /* Primer rebote */
+  }
+  50% {
+    transform: scale(0.9); /* Rebote hacia adentro */
+  }
+  70% {
+    transform: scale(1.01); /* Segundo rebote */
+  }
+  100% {
+    transform: scale(1); /* Vuelve al tamaño original */
+  }
 }
 
 .questionWrapperBody .questionBtnContainer{
@@ -40,8 +59,9 @@
 	display: inline-block !important;
 	border:0 !important;
 }
-.questionWrapperBody .answerBtn.btn.incorrect{background-color: #ff2041;color: white;}
-.questionWrapperBody .answerBtn.btn.correct{background-color: #8BC34A;color: white;}
+.questionWrapperBody .answerBtn.btn.incorrect{background-color: #F1273F;color: white;font-weight: bold;}
+.questionWrapperBody .answerBtn.btn.correct{background-color: #DBF22E;color: #312B6B;font-weight: bold;}
 .react-quiz-container{
-	margin: 20px auto;
+	margin: 0;
+	width: 100%;
 }
