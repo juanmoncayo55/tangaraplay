@@ -2,12 +2,14 @@
   "version": 2,
   "builds": [
     {
+      "src": "/",
       "use": "@vercel/static"
     }
   ],
    "routes": [
     {
-      "dest": "index.html"
+      "src": "/(.*)",
+      "dest": "/"
     },
     {
       "src": "/juegos/:tipoJuego/:oidJuego/:oidUsuario",
