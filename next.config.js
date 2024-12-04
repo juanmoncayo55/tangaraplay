@@ -8,7 +8,7 @@ module.exports = {
   compress: true,
   generateBuildId: async () => {
     // Aquí puedes implementar una lógica personalizada para generar un ID de construcción único
-    return 'my-build-id';
+    return 'afasfadadasd';
   },
   images: {
     domains: ['example.com'],
