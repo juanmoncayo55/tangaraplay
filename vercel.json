@@ -7,8 +7,7 @@
   ],
    "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/"
+      "dest": "index.html"
     },
     {
       "src": "/juegos/:tipoJuego/:oidJuego/:oidUsuario",
