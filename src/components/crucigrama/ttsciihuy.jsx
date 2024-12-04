@@ -132,11 +132,20 @@ export default function initCrosswordGame(data) {
   // Iniciar el juego
   
   setTimeout(function(){
-    startttsgame(),
-    activatetts(),
-    $("#crossword").css({
-        width: 32 * $("tbody:eq(0)").find("tr:eq(0)").find("td").length + "px"
-    }),
+    startttsgame();
+    activatetts();
+    const containerW = $('#crossword').width();
+    const arr_Tr =  $('#crossword tr');
+    let totaltd = $(arr_Tr[0]).find('td').length;
+    let tr_td = arr_Tr.length > totaltd ? arr_Tr.length : totaltd;
+    $("#crossword td").css({
+        width: (containerW  / tr_td - 4 ) + "px",
+        height: (containerW  / tr_td - 4 ) + "px"
+    });
+    $("#crossword td input").css({
+      width: (containerW  / tr_td - 4 ) + "px",
+      height: (containerW  / tr_td - 4 ) + "px"
+  });
     $("#game").css("display", "flex")
-  }, 2000)
+  }, 2000);
 }

@@ -7,6 +7,7 @@ import { GameContext } from "../../Juegos";
 const Crucigrama = () => {
   const { data, moves, handleMoves, setWinner, boardSize } = useContext(GameContext);
   const crossword = useRef(null)
+  console.log(data)
   useEffect(() => {
     if(crossword.current !== null){
       initCrosswordGame(data);
