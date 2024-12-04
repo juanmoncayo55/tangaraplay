@@ -2,34 +2,34 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/**",
+      "src": "index.html",
       "use": "@vercel/static-build"
     }
   ],
-   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    },
+  "routes": [
     {
       "src": "/juegos/:tipoJuego/:oidJuego/:oidUsuario",
-      "dest": "/juegos"
+      "dest": "/index.html"
     },
     {
       "src": "/sopadeletras",
-      "dest": "/sopadeletras"
+      "dest": "/index.html"
     },
     {
       "src": "/ahorcado",
-      "dest": "/ahorcado"
+      "dest": "/index.html"
     },
     {
       "src": "/crucigrama",
-      "dest": "/crucigrama"
+      "dest": "/index.html"
     },
     {
       "src": "/trivia",
-      "dest": "/trivia"
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
