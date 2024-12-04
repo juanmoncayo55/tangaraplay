@@ -23,6 +23,7 @@ const Hangman = () => {
     const inputsIniciales = data.respuesta[0].opcion.split('').map((letra, index) => ({
       valor: index === 0 ? letra : '',
       esCorrecta: index === 0,
+      
       bloqueado: index === 0
     }));
 

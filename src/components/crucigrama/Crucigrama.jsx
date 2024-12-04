@@ -6,31 +6,41 @@ import { GameContext } from "../../Juegos";
 
 const Crucigrama = () => {
   const { data, moves, handleMoves, setWinner, boardSize } = useContext(GameContext);
-  const crossword = useRef(null)
-  console.log(data)
+  const crossword = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   useEffect(() => {
-    if(crossword.current !== null){
-      initCrosswordGame(data);
-      window.externalFunction = (valor) => {
-        handleMoves(moves - valor)
-        console.log()
-        if(moves - valor < 1){
-          handleMoves(data.errores)
-          window.wordIncorrect = 0
-        }
-      }
-
-
-      const script = document.createElement("script");
-      script.src = `/crossword.js`; // Ruta al archivo JS en public
-      script.async = true;
-
-      document.body.appendChild(script);
-      return () => {
-        delete window.externalFunction
-        document.body.removeChild(script); // Limpieza del script
-      };
+    if (!data || typeof data !== 'object' || Object.keys(data).length === 0) {
+      setIsLoading(true);
+      setError("Esperando datos del crucigrama...");
+      return;
     }
+
+      setIsLoading(false);
+      setError(null);
+
+      if (crossword.current) {
+        initCrosswordGame(data);
+        window.externalFunction = (valor) => {
+          handleMoves(moves - valor);
+          if (moves - valor < 1) {
+            handleMoves(data.errores);
+            window.wordIncorrect = 0;
+          }
+        };
+
+        const script = document.createElement("script");
+        script.src = `/crossword.js`;
+        script.async = true;
+        document.body.appendChild(script);
+
+        return () => {
+          delete window.externalFunction;
+          if (document.body.contains(script)) {
+            document.body.removeChild(script);
+          }
+        };
+      }
   }, [data]);  
 
   return(
