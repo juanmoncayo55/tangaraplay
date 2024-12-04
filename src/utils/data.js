@@ -19,10 +19,11 @@ export async function fetchData(oidJuego,oidUsuario){
       let opcionResp = "opcionRespuesta" in result.RespuestaJuego ? result.RespuestaJuego.opcionRespuesta : undefined;
       let tipoResp = "tipoRespuesta" in result.RespuestaJuego ? result.RespuestaJuego.tipoRespuesta : undefined;
       let tipoMec= "tipoMecanica" in result.RespuestaJuego ? result.RespuestaJuego.tipoMecanica : undefined;
+      let urlImage= "imagen" in result.RespuestaJuego ? result.RespuestaJuego.imagen : undefined;
 
       return {
         "pregunta": result.RespuestaJuego.pregunta,
-        "url": result.RespuestaJuego.imagen,
+        "url": urlImage,
         //"errores": 10,
         "errores": result.RespuestaJuego.errores || 10,
         "intentos": result.RespuestaJuego.intentos,

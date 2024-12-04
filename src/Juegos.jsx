@@ -67,28 +67,42 @@ export default function Juegos() {
   }
 
   // Data fetch API
+  // Reiniciar el estado cuando cambia la ruta
   useEffect(() => {
-    setData([]);
-    setLostAttempts(0);
-    setMoves(0);
-    setGameStatus("playing");
-    (async () => {
+    const resetGameState = () => {
+      setData({});
+      setLostAttempts(0);
+      setMoves(0);
+      setGameStatus("playing");
+      setPhotoUrl("");
+      setError(null);
+      cont = 0; // Reiniciar el contador global
+    };
+
+    resetGameState();
+    
+    const fetchGameData = async () => {
       setLoading(true);
-      const dataObj = await fetchData(oidJuego, oidUsuario);
-        if(dataObj.error){
+      try {
+        const dataObj = await fetchData(oidJuego, oidUsuario);
+        if (dataObj.error) {
           setError(dataObj.error);
-          setLoading(false);
-        }else{
+        } else {
           setData(dataObj);
           setMoves(dataObj.errores);
-          setLoading(false);
-
-          if(dataObj.url !== undefined){
-            setPhotoUrl(dataObj.url)
-          }else setPhotoUrl(null)
+          setPhotoUrl(dataObj.url || null);
         }
-    })();
-  }, [oidJuego]);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGameData();
+  }, [location.pathname, oidJuego, oidUsuario]); 
+
+  console.log(data)
   
   // set responsive board game size
   useEffect(() => {

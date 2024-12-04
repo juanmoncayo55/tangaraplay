@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState, useRef } from "react"
 import PropTypes from 'prop-types'
 import Tile from "./Tile"
 import { canSwap, shuffle, swap, isSolved } from "./helpers"
@@ -13,13 +13,16 @@ function SlidingPuzzle({ grid = 3 }) {
     const [boardHeight, setBoardHeight] = useState(boardSize.height);
     const [tiles, setTiles] = useState([...Array(tileCount).keys()]);
     const [isStarted, setIsStarted] = useState(false);
+    const puzzle = useRef(null);
 
     console.log(data)
-    
+
     const shuffleTiles = () => {
-        const shuffledTiles = shuffle(tiles, tileCount);
-        setTiles(shuffledTiles);
-        handleMoves(data.errores);
+        if(puzzle.current !== null){
+            const shuffledTiles = shuffle(tiles, tileCount);
+            setTiles(shuffledTiles);
+            handleMoves(data.errores);
+        }
     }
 
     const swapTiles = (tileIndex) => {
@@ -55,7 +58,7 @@ function SlidingPuzzle({ grid = 3 }) {
 
     return (
         <>
-            <div className="board-grid" style={{ width: boardWidth + 'px', height: boardHeight + 'px' }}>
+            <div ref={puzzle} className="board-grid" style={{ width: boardWidth + 'px', height: boardHeight + 'px' }}>
                 {tiles.map((tile, index) => (
                     <Tile
                         key={tile}
@@ -65,7 +68,7 @@ function SlidingPuzzle({ grid = 3 }) {
                         width={boardWidth / grid}
                         height={boardHeight / grid}
                         gridSize={grid}
-                        imgTile={data.url.replaceAll(' ', '%20')}
+                        imgTile={data.url}
                         handleTileClick={handleTileClick}
                     />
                 ))}
