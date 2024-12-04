@@ -13,7 +13,9 @@ function SlidingPuzzle({ grid = 3 }) {
     const [boardHeight, setBoardHeight] = useState(boardSize.height);
     const [tiles, setTiles] = useState([...Array(tileCount).keys()]);
     const [isStarted, setIsStarted] = useState(false);
-   
+
+    console.log(data)
+    
     const shuffleTiles = () => {
         const shuffledTiles = shuffle(tiles, tileCount);
         setTiles(shuffledTiles);

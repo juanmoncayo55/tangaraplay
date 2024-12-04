@@ -14,7 +14,7 @@ const Crucigrama = () => {
         handleMoves(moves - valor)
         console.log()
         if(moves - valor < 1){
-          handleMoves(10)
+          handleMoves(data.errores)
           window.wordIncorrect = 0
         }
       }
@@ -30,7 +30,7 @@ const Crucigrama = () => {
         document.body.removeChild(script); // Limpieza del script
       };
     }
-  }, []);  
+  }, [data]);  
 
   return(
     <>

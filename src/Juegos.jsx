@@ -31,6 +31,7 @@ export default function Juegos() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [photoUrl, setPhotoUrl] = useState("");
 
   function setGameComponent () {
     let game = null;
@@ -67,10 +68,13 @@ export default function Juegos() {
 
   // Data fetch API
   useEffect(() => {
+    setData([]);
+    setLostAttempts(0);
+    setMoves(0);
+    setGameStatus("playing");
     (async () => {
       setLoading(true);
       const dataObj = await fetchData(oidJuego, oidUsuario);
-      setTimeout(() => {
         if(dataObj.error){
           setError(dataObj.error);
           setLoading(false);
@@ -78,10 +82,13 @@ export default function Juegos() {
           setData(dataObj);
           setMoves(dataObj.errores);
           setLoading(false);
+
+          if(dataObj.url !== undefined){
+            setPhotoUrl(dataObj.url)
+          }else setPhotoUrl(null)
         }
-      }, 2000);
     })();
-  }, [oidJuego,]);
+  }, [oidJuego]);
   
   // set responsive board game size
   useEffect(() => {
@@ -127,7 +134,7 @@ export default function Juegos() {
           {/* info */}
           <div className="w-full md:w-1/2 h-full 2xl:h-2/3 flex flex-col space-y-6 md:space-y-14 justify-between items-center">
             <VidasMovimientos vidas={data.intentos} errores={lostAttempts} movimientos={moves} />
-            <Pregunta pregunta={data.pregunta} isLoading={loading} photo={data.url} />            
+            <Pregunta pregunta={data.pregunta} isLoading={loading} photo={photoUrl} />            
           </div>
 
           {/* juego */}

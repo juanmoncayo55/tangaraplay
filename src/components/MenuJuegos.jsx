@@ -15,7 +15,7 @@ export default function MenuJuegos({ display = "list" }) {
 
     const navigate = useNavigate();
 
-    const disabledGames = ['memoria', 'sopa-de-letras'];
+    const disabledGames = ['memoria', 'sopa-de-letras', 'trivia-multiple'];
 
     return (
         <>
