@@ -35,13 +35,14 @@ export default function Juegos() {
 
   function setGameComponent () {
     let game = null;
+    console.log(tipoJuego)
     switch (tipoJuego) {
-      case 'ruleta': game = <Roulette />;break;
-      case 'trivia': game = <Trivia /> ;break;
-      case 'trivia-multiple': game = <TriviaMultiple />;break;
-      case 'ahorcado': game = <Hangman />;break;
-      case 'rompecabezas': game = <SlidingPuzzle />;break;
-      case 'crucigrama': game = <Crucigrama />;break;
+      case "6": game = <Roulette />;break;
+      case "4": game = <Trivia /> ;break;
+      case "10": game = <TriviaMultiple />;break;
+      case "1": game = <Hangman />;break;
+      case "3": game = <SlidingPuzzle />;break;
+      case "16": game = <Crucigrama />;break;
       default:break;
     }
     return game;
@@ -102,7 +103,7 @@ export default function Juegos() {
     fetchGameData();
   }, [location.pathname, oidJuego, oidUsuario]); 
 
-  console.log(data)
+  //console.log(data)
   
   // set responsive board game size
   useEffect(() => {

@@ -11,6 +11,7 @@ const Crucigrama = () => {
   const [error, setError] = useState(null);
   const [isInitialized, setIsInitialized] = useState(false);
   
+  console.log(data)
   useEffect(() => {
     const cleanup = () => {
       const script = document.querySelector('script[src="/crossword.js"]');
@@ -68,7 +69,7 @@ const Crucigrama = () => {
 
     // Cleanup cuando el componente se desmonta o cuando data cambia
     return cleanup;
-  }, [data, moves, handleMoves]);
+  }, []);
 
   if (error) {
     return (

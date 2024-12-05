@@ -37,3 +37,31 @@ export async function fetchData(oidJuego,oidUsuario){
         return { error: err.message };
     }    
   }
+
+
+export async function fetchDataListaJuegos(){
+  try {
+    const response = await fetch("https://tangara.gov.co/ws_pme/?JuegosDisponibles", {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        "oid": 18,
+      })
+    });
+
+    if (response.status !== 200) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") === -1)throw new Error('No se pudo cargar la lista de juegos');
+    const result = await response.json();
+
+    if(result.status === 200){
+      return result.ActividadesDisponibles;
+    }else{
+      throw new Error("Hubo un error al hacer la peticion al servidor")
+    }
+  } catch (err) {
+      console.log(err);
+      return { error: err.message };
+  }
+}

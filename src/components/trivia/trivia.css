@@ -1,4 +1,4 @@
-.questionWrapperBody .tag-container, .questionWrapperBody div:first-child{display: none !important;}
+.questionWrapperBody .tag-container, .questionWrapperBody div:first-child, .questionBtnContainer{display: none !important;}
 .questionWrapperBody h3{
 	/*
 		bg-verdeLimon rounded-2xl py-4
@@ -26,7 +26,6 @@
 .questionWrapperBody .answerBtn.btn:hover{
 	animation: bounce 0.6s ease 2;
 }
-
 
 @keyframes bounce {
   0% {

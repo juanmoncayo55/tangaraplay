@@ -8,6 +8,7 @@ import WordSearch from './components/wordSearch/WordSearch.jsx'
 import HangmanComponent from './components/hangman/Hangman.jsx'
 import Crucigrama from "./components/crucigrama/Crucigrama.jsx"
 import Trivia from './components/trivia/Trivia.jsx'
+import ListaJuegos from './ListaJuegos.jsx'
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/trivia",
     element: <Trivia />
+  },
+  {
+    path: "/lista/trivia/:oid",
+    element: <ListaJuegos />
   }
 ])
 

@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import Quiz from 'react-quiz-component';
 
-import {dataTrivia} from "./dataTrivia.js";
 import "./trivia.css";
 import { GameContext } from '../../Juegos.jsx';
 
@@ -25,11 +24,15 @@ const Trivia = () => {
 			}
 			setInfoQuiz({questions: [formInfo]})
 
-			document.querySelector("#preguntaDiv").innerHTML = `
-      <div class="flex justify-between items-center gap-4">
-        <img src="${data.url}" class="w-full rounded-xl" />
-      </div>
-    `;
+			if(data.url !== undefined){
+				document.querySelector("#preguntaDiv").innerHTML = `
+		      <div class="flex justify-between items-center gap-4">
+		        <img src="${data.url}" class="w-full rounded-xl" />
+		      </div>
+		    `;
+			}
+
+    console.log(data)
 
 			if(formInfo.url === undefined){
 				// Configurar el observer para observar el DOM
@@ -81,14 +84,50 @@ const Trivia = () => {
 export default Trivia
 
 /*
-{ showResult && (
-	<>
-		<div className="flex flex-col justify-center gap-y-2">
-			<p className="text-white text-lg text-center">Preguntas Correctas: {quizResult.numberOfCorrectAnswers}</p>
-			<p className="text-white text-lg text-center">Preguntas Incorrectas: {quizResult.numberOfIncorrectAnswers}</p>
-			<p className="text-white text-lg text-center">Total Puntos: {quizResult.correctPoints} / {quizResult.totalPoints} </p>
-			<Link to="/hangman" className="bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2 mx-auto text-center mt-7">Siguiente</Link>
-		</div>
-	</>
-) }
+import React, { useState } from "react";
+
+const Quiz = () => {
+  const questions = [
+    {
+      question: "¿Cuál es la capital de Alemania?",
+      options: ["Berlín", "Múnich", "Hamburgo"],
+      answer: "Berlín",
+    },
+  ];
+
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showScore, setShowScore] = useState(false);
+
+  const handleAnswer = (option) => {
+    if (option === questions[currentQuestion].answer) {
+      setScore(score + 1);
+    }
+    const nextQuestion = currentQuestion + 1;
+    if (nextQuestion < questions.length) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      setShowScore(true);
+    }
+  };
+
+  return (
+    <div>
+      {showScore ? (
+        <h2>Tu puntuación es: {score}</h2>
+      ) : (
+        <div>
+          <h2>{questions[currentQuestion].question}</h2>
+          {questions[currentQuestion].options.map((option) => (
+            <button key={option} onClick={() => handleAnswer(option)}>
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Quiz;
 */

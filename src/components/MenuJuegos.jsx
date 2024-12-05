@@ -33,7 +33,7 @@ export default function MenuJuegos({ display = "list" }) {
                         <div className={`card w-auto text-azul-claro shadow-lg transition-all ease-in-out duration-700 ${disabledGames.includes(item.tipoJuego) ? 'grayscale bg-gris-claro-azul':'cursor-pointer  hover:shadow-2xl'}`} key={index}>
                             <div className="card-body">
                                 <h2 className="card-title mx-auto">{item.name}</h2>
-                                <Link className={`btn bg-transparent hover:bg-success stretched-link uppercase font-bold ${disabledGames.includes(item.tipoJuego) ? 'pointer-events-none disabled' : ''}`} to={`/juegos/${item.tipoJuego}/${item.oidJuego}/${item.oidUsuario}`}>
+                                <Link className={`btn bg-transparent hover:bg-success stretched-link uppercase font-bold ${disabledGames.includes(item.tipoJuego) ? 'pointer-events-none disabled' : ''}`} to={item.name == "Trivia" ? "/lista/trivia" :`/juegos/${item.tipoJuego}/${item.oidJuego}/${item.oidUsuario}`}>
                                     Jugar
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-play-circle-fill" viewBox="0 0 16 16">
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
