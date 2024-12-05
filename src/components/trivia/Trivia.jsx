@@ -25,7 +25,11 @@ const Trivia = () => {
 			}
 			setInfoQuiz({questions: [formInfo]})
 
-			console.log( formInfo )
+			document.querySelector("#preguntaDiv").innerHTML = `
+      <div class="flex justify-between items-center gap-4">
+        <img src="${data.url}" class="w-full rounded-xl" />
+      </div>
+    `;
 
 			if(formInfo.url === undefined){
 				// Configurar el observer para observar el DOM

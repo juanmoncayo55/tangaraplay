@@ -21,7 +21,7 @@ const FallasteModal = () => {
           </div>
           <div className="justify-center modal-action">
             <form method="dialog">
-              <button onClick={() => document.getElementById('fallasteModal').showModal()} className="btn btn-error font-extrabold text-white text-lg px-8 py-4 rounded-3xl w-auto h-auto">Siguiente</button>
+              <button onClick={() => document.getElementById('fallasteModal').showModal()} className="btn btn-error font-extrabold text-white text-lg px-8 py-4 rounded-3xl w-auto h-auto">Aceptar</button>
             </form>
           </div>
         </div>

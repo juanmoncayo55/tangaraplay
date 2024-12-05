@@ -21,7 +21,7 @@ const GanasteModal = ({puntos}) => {
           </div>
           <div className="justify-center modal-action">
             <form method="dialog">
-              <button className="btn btn-accent font-extrabold text-lg px-8 py-4 rounded-3xl w-auto h-auto">Siguiente</button>
+              <button className="btn btn-accent font-extrabold text-lg px-8 py-4 rounded-3xl w-auto h-auto">Aceptar</button>
             </form>
           </div>
         </div>

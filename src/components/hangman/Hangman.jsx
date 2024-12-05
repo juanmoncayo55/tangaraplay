@@ -15,7 +15,6 @@ const Hangman = () => {
       console.error('Datos inválidos o faltantes:', data);
       return;
     }
-    console.log(data)
     setPalabraSecreta(data.respuesta[0].opcion);
     handleMoves(data.errores || 0);
     setVueltasCorazon(data.intentos || 3);
@@ -60,6 +59,12 @@ const Hangman = () => {
 
     setInputsLetras(nuevosInputs);
 
+    if( letraCorrecta !== valorIngresado ){
+      console.log("Es incorrecta la letra")
+    }else{
+      console.log("Es correcta la letra")
+    }
+
     if(moves === 1){
       handleMoves(data.errores);
       setVueltasCorazon(prev => prev - 1);
@@ -75,7 +80,8 @@ const Hangman = () => {
     );
 
     if (palabraAdivinada) {
-      alert('¡Felicidades! Has adivinado la palabra.');
+      //alert('¡Felicidades! Has adivinado la palabra.');
+      setWinner()
       bloquearInputs();
     }
   };
@@ -101,11 +107,26 @@ const Hangman = () => {
     if (evento.nativeEvent.inputType === 'insertText') {
       verificarLetra(index, valorIngresado);
     }
+
     
     if(vueltasCorazon < 1){
       bloquearInputs();
     } else {
       setInputsLetras(nuevosInputs);
+    }
+
+    if( palabraSecreta[index].toLowerCase() !== valorIngresado ){
+      evento.nativeEvent.target.style.borderBottom = "1px solid red";
+      evento.nativeEvent.target.style.backgroundColor = "#ff3f3f42";
+      console.log(evento.nativeEvent.target.value)
+    }else if(palabraSecreta[index].toLowerCase() == valorIngresado){
+      evento.nativeEvent.target.style.borderBottom = "1px solid green";
+      evento.nativeEvent.target.style.backgroundColor = "rgb(27 115 2 / 26%)";
+    }
+
+    if(evento.nativeEvent.target.value == ""){
+      evento.nativeEvent.target.style.borderBottom = "1px solid #312B6B";
+      evento.nativeEvent.target.style.backgroundColor = "#FFF";
     }
   };
 

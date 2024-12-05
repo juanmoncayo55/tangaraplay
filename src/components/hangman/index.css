@@ -18,3 +18,10 @@
   border-bottom: 1px solid #312B6B;
   color: #312B6B;
 }
+
+.inputs-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: .7rem;
+}
