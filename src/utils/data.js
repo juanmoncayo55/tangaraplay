@@ -20,6 +20,7 @@ export async function fetchData(oidJuego,oidUsuario){
       let tipoResp = "tipoRespuesta" in result.RespuestaJuego ? result.RespuestaJuego.tipoRespuesta : undefined;
       let tipoMec= "tipoMecanica" in result.RespuestaJuego ? result.RespuestaJuego.tipoMecanica : undefined;
       let urlImage= "imagen" in result.RespuestaJuego ? result.RespuestaJuego.imagen : undefined;
+      let tiempo= "tiempo" in result.RespuestaJuego ? result.RespuestaJuego.tiempo : undefined;
 
       return {
         "pregunta": result.RespuestaJuego.pregunta,
@@ -30,7 +31,8 @@ export async function fetchData(oidJuego,oidUsuario){
         "puntos": result.RespuestaJuego.puntos,
         "respuesta": opcionResp,
         "tipoRespuesta": tipoResp,
-        "tipoMecanica": tipoMec
+        "tipoMecanica": tipoMec,
+        "tiempo": tiempo
       };
     } catch (err) {
         console.log(err);

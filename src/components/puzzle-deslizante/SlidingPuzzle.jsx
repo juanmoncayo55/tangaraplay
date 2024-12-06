@@ -15,8 +15,6 @@ function SlidingPuzzle({ grid = 3 }) {
     const [isStarted, setIsStarted] = useState(false);
     const puzzle = useRef(null);
 
-    console.log(data)
-
     const shuffleTiles = () => {
         if(puzzle.current !== null){
             const shuffledTiles = shuffle(tiles, tileCount);
@@ -68,7 +66,7 @@ function SlidingPuzzle({ grid = 3 }) {
                         width={boardWidth / grid}
                         height={boardHeight / grid}
                         gridSize={grid}
-                        imgTile={data.url}
+                        imgTile={data.url.replaceAll(' ','%20')}
                         handleTileClick={handleTileClick}
                     />
                 ))}

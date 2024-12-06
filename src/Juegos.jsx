@@ -17,6 +17,7 @@ import FallasteModal from "./components/FallasteModal"
 import Crucigrama from "./components/crucigrama/Crucigrama"
 import WordList from "./components/WordList"
 import WordSearch from "./components/wordSearch/WordSearch"
+import MemoramaCartas from "./components/memorama-cartas/MemoramaCartas"
 
 export const GameContext = createContext();
 let cont = 0;
@@ -38,15 +39,15 @@ export default function Juegos() {
 
   function setGameComponent () {
     let game = null;
-    console.log(tipoJuego)
     switch (tipoJuego) {
-      case "6": game = <Roulette />;break;
-      case "4": game = <Trivia /> ;break;
-      case "10": game = <TriviaMultiple />;break;
-      case "1": game = <Hangman />;break;
+      case "1":case "2": game = <Hangman />;break;
       case "3": game = <SlidingPuzzle />;break;
-      case "16": game = <Crucigrama />;break;
+      case "4":case "5": game = <Trivia /> ;break;
+      case "6":case "7":case "8":case "9": game = <Roulette />;break;
+      case "10":case "11": game = <TriviaMultiple />;break;
+      case "12": game = <MemoramaCartas />;break;
       case "13": game = <WordSearch />;break;
+      case "16": game = <Crucigrama />;break;
       default:break;
     }
     return game;
@@ -54,11 +55,10 @@ export default function Juegos() {
 
   function handleMoves(totalMoves,hasWon) {
     setMoves(totalMoves);
-    console.log(totalMoves)
     if(totalMoves === 0){
       cont = cont + 1;
       setLostAttempts(prev => prev + 1);
-      if(cont === data.intentos){ setGameStatus('fallaste'); alet("Fallaste") }
+      if(cont === data.intentos)setGameStatus('fallaste')
     }
     if(moves === 1){
       setLostAttempts(lostAttempts + 1);
@@ -145,7 +145,7 @@ export default function Juegos() {
 
         <header className="w-full bg-gris-claro-azul py-2">
           <div className="container mx-auto text-center">
-            <h1 className="text-secondary text-3xl capitalize">{tipoJuego}</h1>
+            <h1 className="text-secondary text-3xl capitalize">{tipoJuego == 3 && data.pregunta}</h1>
           </div>
         </header>
 

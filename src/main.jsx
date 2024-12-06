@@ -4,10 +4,6 @@ import { createBrowserRouter, RouterProvider} from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import Juegos from './Juegos.jsx'
-import WordSearch from './components/wordSearch/WordSearch.jsx'
-import HangmanComponent from './components/hangman/Hangman.jsx'
-import Crucigrama from "./components/crucigrama/Crucigrama.jsx"
-import Trivia from './components/trivia/Trivia.jsx'
 import ListaJuegos from './ListaJuegos.jsx'
 
 const router = createBrowserRouter([
@@ -16,28 +12,12 @@ const router = createBrowserRouter([
     element: <App />
   },
   {
+    path: "/juegos/:oid",
+    element: <ListaJuegos />
+  },
+  {
     path: "/juegos/:tipoJuego/:oidJuego/:oidUsuario",
     element: <Juegos />
-  },
-  {
-    path: "/sopadeletras",
-    element: <WordSearch /> 
-  },
-  {
-    path: "/ahorcado",
-    element: <HangmanComponent />
-  },
-  {
-    path: "/crucigrama",
-    element: <Crucigrama />
-  },
-  {
-    path: "/trivia",
-    element: <Trivia />
-  },
-  {
-    path: "/lista/trivia/:oid",
-    element: <ListaJuegos />
   }
 ])
 

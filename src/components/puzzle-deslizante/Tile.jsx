@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { getMatrixPosition, getVisualPosition } from "./helpers";
 
 function Tile(props) {
@@ -27,6 +28,17 @@ function Tile(props) {
             <span className="tile-number opacity-0">{tile + 1}</span>
         </div>
     )
+}
+
+Tile.propTypes = {
+    tile: PropTypes.number,
+    tileCount: PropTypes.number,
+    index: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    imgTile: PropTypes.string,
+    gridSize: PropTypes.number,
+    handleTileClick: PropTypes.func
 }
 
 export default Tile

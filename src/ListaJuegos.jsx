@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchDataListaJuegos } from "./utils/data";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -14,8 +14,6 @@ const ListaJuegos = () => {
     (async() => {
       const todosJuegos = await fetchDataListaJuegos();
       const juegos = todosJuegos.filter(juego => juego.tipoJuego === parseInt(oid));
-
-      console.log(juegos)
       setListGame(juegos);
     })()
   }, [params]);
@@ -31,9 +29,14 @@ const ListaJuegos = () => {
               {
                 listGame.length > 0 ?
                   listGame.map((item, key) => (
-                    <Link key={key} className="bg-stone-300 px-2 py-3 text-center font-semibold flex items-center justify-center" to={`/juegos/${item.tipoJuego}/${item.oidJuego}/18`}>
-                      {item.titulo}
-                    </Link>
+                    <div className="card w-auto text-azul-claro shadow-lg transition-all ease-in-out duration-700 cursor-pointer  hover:shadow-2xl" key={key}>
+                        <div className="card-body">
+                          <h2 className="card-title mx-auto text-center">{item.titulo}</h2>
+                          <Link  className="btn bg-transparent hover:bg-success text-center font-semibold flex items-center justify-center" to={`/juegos/${item.tipoJuego}/${item.oidJuego}/18`}>
+                            Jugar
+                          </Link>
+                          </div>
+                      </div>
                   ))
                   : null
               }

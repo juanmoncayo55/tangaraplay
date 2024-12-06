@@ -3,7 +3,6 @@ import Header from "./components/Header"
 import Footer from "./components/Footer"
 import MenuJuegos from "./components/MenuJuegos"
 import { fetchDataListaJuegos } from "./utils/data"
-import { Link } from "react-router-dom"
 
 const idMenuJuegos = [
   {"oid": 1, "nombre": "Ahorcado con Imagen"},
@@ -42,13 +41,12 @@ export default function App() {
       // Resultado
       const result = filtrarIds.map(({ oid, nombre }) => ({ oid, nombre }));
 
-      console.log(result)
       setAvailableItems(result);
     })()
   }, []);
   return (
     <div className="flex flex-col justify-between flex-nowrap items-center min-h-screen md:min-h-px md:h-screen">
-      <Header />
+      <Header disponibles={availableItems}/>
       <main className="grow w-full flex flex-col">
         <header className="w-full bg-gris-claro-azul py-2">
           <div className="container mx-auto text-center">
@@ -56,16 +54,7 @@ export default function App() {
           </div>
         </header>
         <section className="grow container mx-auto flex justify-center items-center px-4 lg:px-16 xxl:px-0 pb-12">
-          {/*<MenuJuegos display="cards" />*/}
-          <div className="flex flex-wrap gap-3">
-            {
-              availableItems.length > 0
-                ? availableItems.map((item, key) => (
-                  <Link key={key} className="bg-gray-100 w-auto shadow-lg transition-all ease-in-out duration-700 text-black hover:shadow-2xl py-5 px-4" to={`/lista/trivia/${item.oid}`}>{item.nombre}</Link>
-                ))
-                : null
-            }
-          </div>
+          <MenuJuegos items={availableItems} display="cards" />
         </section>
       </main>
       <Footer />
