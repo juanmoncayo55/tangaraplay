@@ -1,133 +1,105 @@
-import React, {useContext, useEffect, useRef, useState} from 'react'
-import Quiz from 'react-quiz-component';
-
-import "./trivia.css";
-import { GameContext } from '../../Juegos.jsx';
+import React, { useContext, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { GameContext } from "../../Juegos.jsx";
 
 const Trivia = () => {
-	const {data} = useContext(GameContext);
-	const quizRef = useRef(null);
-	const [infoQuiz, setInfoQuiz] = useState({});
-
-	useEffect(() => {
-		if(quizRef.current !== null && data !== null){
-			let formInfo = {
-				question: data.pregunta,
-				//questionType: data.tipoMecanica === 1 ? "text" : "photo",
-				questionType: "text",
-				//answerSelectionType: data.tipoRespuesta === 1 ? "single" : "multiple",
-				answerSelectionType: "single",
-				answers: data.respuesta.map(resp => resp.opcion),
-				correctAnswer: data.respuesta.filter((resp, index) => resp.respuesta === "1")[0].respuesta,
-				point: data.puntos.toString(),
-				url: data.url
-			}
-			setInfoQuiz({questions: [formInfo]})
-
-			if(data.url !== undefined){
-				document.querySelector("#preguntaDiv").innerHTML = `
-		      <div class="flex justify-between items-center gap-4">
-		        <img src="${data.url}" class="w-full rounded-xl" />
-		      </div>
-		    `;
-			}
-
-    console.log(data)
-
-			if(formInfo.url === undefined){
-				// Configurar el observer para observar el DOM
-		    const observer = new MutationObserver((mutations) => {
-		      mutations.forEach((mutation) => {
-		        if (mutation.type === "childList") {
-		          const element = document.querySelector(".questionWrapperBody h3");
-		          if (element) {
-		            element.remove(); // Eliminar el elemento
-		            observer.disconnect(); // Detener el observer después de eliminar
-		          }
-		        }
-		      });
-		    });
-
-		    // Observar el contenedor principal
-		    observer.observe(document.body, {
-		      childList: true, // Detecta cambios en los hijos
-		      subtree: true,   // Detecta cambios en los descendientes
-		    });
-	    	
-	    	return () => observer.disconnect();
-			}
-		}
-
-
-
-	}, [])
-
-	const quizResultFn = data => {
-		console.log(data)
-	}
-
-	return (
-		<>
-			<div ref={quizRef} className='h-full flex items-center'>
-				{Object.keys(infoQuiz)[0] == "questions" && <Quiz
-					quiz={infoQuiz}
-					disableSynopsis
-					enableProgressBar={false}
-					showDefaultResult={false}
-					onComplete={quizResultFn}
-				/>}
-			</div>
-		</>
-	)
-}
-
-export default Trivia
-
-/*
-import React, { useState } from "react";
-
-const Quiz = () => {
-  const questions = [
-    {
-      question: "¿Cuál es la capital de Alemania?",
-      options: ["Berlín", "Múnich", "Hamburgo"],
-      answer: "Berlín",
-    },
-  ];
-
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const { data, setWinner, moves, handleMoves } = useContext(GameContext);
+  const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
-  const [showScore, setShowScore] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
-  const handleAnswer = (option) => {
-    if (option === questions[currentQuestion].answer) {
-      setScore(score + 1);
+  useEffect(() => {
+    if (data) {
+      const formInfo = {
+        question: data.pregunta,
+        options: data.respuesta.map((resp) => resp.opcion),
+        answer: data.respuesta.find((resp) => resp.respuesta === "1")?.opcion,
+        url: data.url,
+      };
+      setQuestions([formInfo]);
+      handleMoves(data.intentos);
+      setDisabled(false); // Reseteamos el estado disabled cuando hay nueva data
     }
-    const nextQuestion = currentQuestion + 1;
-    if (nextQuestion < questions.length) {
-      setCurrentQuestion(nextQuestion);
+
+    if(data.url !== undefined){
+      document.querySelector("#preguntaDiv").innerHTML = `
+        <div class="flex justify-between items-center gap-4">
+          <img src="${data.url}" class="w-full rounded-xl" />
+        </div>
+      `;
+    }
+  }, [data]);
+
+  const handleAnswer = (e, option) => {
+    const fallasteModal = document.getElementById("fallasteModal");
+    
+    if (questions[0]?.answer === option) {
+      e.target.classList.add("btnQuestionWinn");
+      setScore(score + 1);
+      setWinner("ganaste");
     } else {
-      setShowScore(true);
+      const newMoves = moves - 1;
+      handleMoves(newMoves);
+      
+      if(newMoves === 0) {
+        // Cuando llegamos a 0 intentos
+        setDisabled(true);
+        setWinner("fallaste");
+        // Mostrar el modal final
+        fallasteModal.showModal();
+      } else {
+        e.target.classList.add("btnQuestionBad");
+        setWinner("fallaste");
+        
+        // Mostrar el modal de fallo
+        fallasteModal.showModal();
+        
+        // Configurar el evento para cuando se cierre el modal
+        const handleModalClose = () => {
+          e.target.classList.remove("btnQuestionBad");
+          fallasteModal.removeEventListener('close', handleModalClose);
+        };
+        
+        fallasteModal.addEventListener('close', handleModalClose);
+      }
     }
   };
 
   return (
-    <div>
-      {showScore ? (
-        <h2>Tu puntuación es: {score}</h2>
-      ) : (
-        <div>
-          <h2>{questions[currentQuestion].question}</h2>
-          {questions[currentQuestion].options.map((option) => (
-            <button key={option} onClick={() => handleAnswer(option)}>
+    <div style={{ textAlign: "center", marginTop: "20px"}}>
+      {questions.length > 0 ? (
+        <motion.div
+          key={`question`}
+          initial={{ x: 300, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {questions[0].url && (
+            <>
+              <h2>{questions[0].question}</h2>
+              <div className="text-sm mb-4">
+                Intentos restantes: {moves}
+              </div>
+            </>
+          )}
+          {questions[0].options.map((option) => (
+            <motion.button
+              key={option}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={(e) => handleAnswer(e, option)}
+              className="btnQuestion"
+              disabled={disabled}
+            >
               {option}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
+      ) : (
+        <p>Cargando...</p>
       )}
     </div>
   );
 };
 
-export default Quiz;
-*/
+export default Trivia;

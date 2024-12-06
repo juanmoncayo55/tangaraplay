@@ -14,6 +14,16 @@ const ListaJuegos = () => {
     (async() => {
       const todosJuegos = await fetchDataListaJuegos();
       const juegos = todosJuegos.filter(juego => juego.tipoJuego === parseInt(oid));
+      const getSomeElements = juegos.map(element => {
+        return {
+          oidJuego: element.oidJuego,
+          tipoJuego: element.tipoJuego
+        }
+      });
+      let ArregloOrdenado = getSomeElements.sort((a, b) => a.oidJuego - b.oidJuego);
+
+      localStorage.setItem("listIdPresentGame", JSON.stringify(ArregloOrdenado));
+
       setListGame(juegos);
     })()
   }, [params]);

@@ -23,6 +23,7 @@ const idMenuJuegos = [
   {"oid": 16, "nombre": "Crucigrama"},
 ];
 
+
 export default function App() {
   const [availableItems, setAvailableItems] = useState([]);
   useEffect(() => {

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { GameContext } from "../../Juegos";
 
 const SIZE_VALIDATION_REGEX = /^[1-2]?[0-9]\*[1-2]?[0-9]$/s;
-const DEFAULT_SIZE = [13, 15];
+const DEFAULT_SIZE = [10, 10];
 
 export const WordSearchContext = createContext();
 

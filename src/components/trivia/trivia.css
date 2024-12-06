@@ -1,5 +1,5 @@
 .questionWrapperBody .tag-container, .questionWrapperBody div:first-child, .questionBtnContainer{display: none !important;}
-.questionWrapperBody h3{
+.questionWrapperBody .question{
 	/*
 		bg-verdeLimon rounded-2xl py-4
 		text-black uppercase text-lg font-semibold text-center
@@ -12,7 +12,7 @@
 }
 
 /*bg-white rounded-3xl text-backgroundAzulOscuro uppercase text-xl text-center font-bold py-3*/
-.questionWrapperBody .answerBtn.btn{
+.questionWrapperBody .answerBtn.btn, .btnQuestion{
 	background-color: #EAEAEC;
 	border-radius: 15px !important;
 	color: #312B6B;
@@ -49,8 +49,7 @@
 	/*bg-azulBrillante3 text-black text-lg font-semibold py-3 px-9 rounded-3xl w-1/2 text-center*/
 	justify-content: center;
 }
-.questionWrapperBody .questionBtnContainer button{
-	background-color: #01FCFE;
+.btnQuestion{
 	color: #000;
 	font-size: 17px !important;
 	padding: 10px 35px;
@@ -58,8 +57,8 @@
 	display: inline-block !important;
 	border:0 !important;
 }
-.questionWrapperBody .answerBtn.btn.incorrect{background-color: #F1273F;color: white;font-weight: bold;}
-.questionWrapperBody .answerBtn.btn.correct{background-color: #DBF22E;color: #312B6B;font-weight: bold;}
+.btnQuestionBad{background-color: #F1273F;color: white;font-weight: bold;}
+.btnQuestionWinn{background-color: #DBF22E;color: #312B6B;font-weight: bold;}
 .react-quiz-container{
 	margin: 0;
 	width: 100%;
