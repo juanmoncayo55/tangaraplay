@@ -21,7 +21,7 @@ export default function MenuJuegos({ items, display = "list" }) {
       ];
       if(items === undefined)items = idMenuJuegos;
     const navigate = useNavigate();
-    const missingGames = [12,14,15];
+    const missingGames = [6,7,8,9,12,14,15];
 
     return (
         <>

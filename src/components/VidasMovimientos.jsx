@@ -14,9 +14,11 @@ const VidasMovimientos = ({vidas, errores, movimientos}) => {
                 )}
             </div>
             <div className="text-sm">Vidas</div>
-        </div>
+        </div>                                                                                                                                          
         <div className="w-1/2 flex flex-col justify-end items-center">
-            <div className="movimientos text-4xl mb-2 countdown"><span className="text-center" style={{ "--value": movimientos }}></span></div>
+            <div className="movimientos text-4xl mb-2 countdown">
+              <span className="text-center" style={{ "--value": movimientos }}></span>
+            </div>
             <div className="text-sm">Movimientos</div>
         </div>
     </div>
