@@ -4,13 +4,13 @@ import { randomInt, clamp } from './helperFunctions';
 const MAX_SIZE = 20;
 const MIN_SIZE = 5;
 
-export default function createPuzzle(width = 11, height = 11, wordCount = Infinity) {
+export default function createPuzzle(width = 11, height = 11, data, wordCount = Infinity) {
   height = clamp(height, MIN_SIZE, MAX_SIZE)
   width = clamp(width, MIN_SIZE, MAX_SIZE)
   const charLimit = clamp(Math.min(height, width) - 2, 4, MAX_SIZE - 2)
   const listSize = Math.min(height, width, wordCount)
   // create word list
-  let wordlist = createAWordList(listSize, charLimit)
+  let wordlist = createAWordList(listSize, charLimit, data)
   // create empty table matrix
   const table = createTableArray(height, width);
   // place words
@@ -20,9 +20,12 @@ export default function createPuzzle(width = 11, height = 11, wordCount = Infini
   return [table, wordlist];
 }
 
-function createAWordList(size, charLimit) {
+function createAWordList(size, charLimit, data) {
+  console.log(data)
   let wordlist = [];
-  const _wordlist = Wordlist.filter(w => w.length <= charLimit);
+  const _wordlist = data.respuesta
+    .map(resp => resp.palabra)
+    .filter(w => w.length <= charLimit);
 
   size = Math.min(_wordlist.length, Math.abs(size))
   for (let i = 0; i < size; i++) {

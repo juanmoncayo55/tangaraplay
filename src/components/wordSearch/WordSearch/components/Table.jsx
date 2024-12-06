@@ -2,18 +2,16 @@ import React, { useState, useCallback, useRef, useMemo, useEffect, useLayoutEffe
 import Highlight from './Highlight';
 import useEventListener from '../hooks/useEventListener';
 import { clamp } from '../utils/helperFunctions';
-import { ModalP } from './ModalP';
 import { WordSearchContext } from '../../WordSearch';
-export default function Table({ size, table, wordlist, setWordlist, debugMode, windowSize, gameOver, resetGame }) {
+export default function Table({ size, table, wordlist, setWordlist, setListSopa, setWinner, debugMode, windowSize, gameOver, resetGame }) {
   const [selection, setSelection] = useState([]);
-  const [gameOverP, setGameOverP] = useState(false);
   const tableRef = useRef({});
   const WordHighlighterRef = useRef([]);
   const isMouseDown = useRef(false);
   const prevInteraction = useRef();
   const mainRef = useRef();
   const boundary = useRef();
-  const { getListWord, setMoves } = useContext(WordSearchContext);
+  const { getListWord, handleMoves } = useContext(WordSearchContext);
 
 
   const setBoundary = useCallback(() => {
@@ -95,10 +93,10 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
       match.foundAt = Date.now();
       setWordlist([...wordlist]);
       getListWord([...wordlist])
+      setListSopa([...wordlist])
     }else{
       //Aqui Fueeeeeeeeeeeeeeeee
-      setMoves(prev => prev - 1);
-      console.log("kasndaklsndklanskd")
+      handleMoves(prev => prev - 1);
     }
     setSelection([]);
   };
@@ -219,7 +217,8 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
       const mark = WordHighlighterRef.current[i];
 
       if( wordlist.every(e => e.found === true) ){
-        setGameOverP(true);
+        //setGameOverP(true);
+        setWinner("ganaste")
       }
 
       return mark ? (
@@ -228,11 +227,6 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
     });
   }, [debugMode, windowSize, wordlist]);
 
-  const handleNewGame = () => {
-    resetGame()
-    setGameOverP(false)
-  }
-
   return (
     <div id='table-wrapper' className='round-corner' {...{ onTouchMove, onTouchStart, onMouseDown }}>
       <table className='table touch-action-none' ref={mainRef}>
@@ -240,12 +234,6 @@ export default function Table({ size, table, wordlist, setWordlist, debugMode, w
       </table>
       {selectionHighlight}
       {highlightedWords}
-
-      <ModalP
-        gameOver={gameOverP}
-        setGameOver={setGameOverP}
-        handleNewGame={handleNewGame}
-      />
     </div>
   );
 }

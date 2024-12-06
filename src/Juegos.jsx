@@ -15,6 +15,8 @@ import Pregunta from "./components/Pregunta"
 import GanasteModal from "./components/GanasteModal"
 import FallasteModal from "./components/FallasteModal"
 import Crucigrama from "./components/crucigrama/Crucigrama"
+import WordList from "./components/WordList"
+import WordSearch from "./components/wordSearch/WordSearch"
 
 export const GameContext = createContext();
 let cont = 0;
@@ -32,6 +34,7 @@ export default function Juegos() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [photoUrl, setPhotoUrl] = useState("");
+  const [listSopa, setListSopa] = useState([]);
 
   function setGameComponent () {
     let game = null;
@@ -43,6 +46,7 @@ export default function Juegos() {
       case "1": game = <Hangman />;break;
       case "3": game = <SlidingPuzzle />;break;
       case "16": game = <Crucigrama />;break;
+      case "13": game = <WordSearch />;break;
       default:break;
     }
     return game;
@@ -149,13 +153,20 @@ export default function Juegos() {
           {/* info */}
           <div className="w-full md:w-1/2 h-full 2xl:h-2/3 flex flex-col space-y-6 md:space-y-14 justify-between items-center">
             <VidasMovimientos vidas={data.intentos} errores={lostAttempts} movimientos={moves} />
-            <Pregunta pregunta={data.pregunta} isLoading={loading} photo={photoUrl} />            
+            {
+              tipoJuego == 13 ? (
+                <div className={`bg-gris-claro-azul rounded-3xl w-full h-2/3 max-h-max xl:max-h-full p-6 md:p-12 justify-center flex flex-col items-center ${loading && 'skeleton'}`}>
+                  <WordList wordlist={listSopa} />
+                </div>
+              )
+              : <Pregunta pregunta={data.pregunta} isLoading={loading} photo={photoUrl} />
+            }            
           </div>
 
           {/* juego */}
           <div ref={gameColumnRef} className="w-full md:w-1/2 h-full 2xl:h-2/3 flex justify-center items-center pt-12">
             <div className={`relative aspect-square ${loading ? 'skeleton':''}`} style={{width:boardSize.width+'px',height:boardSize.height+'px'}}>
-              <GameContext.Provider value={{data, moves, handleMoves, boardSize, setWinner}}>
+              <GameContext.Provider value={{data, moves, handleMoves, boardSize, setWinner, setListSopa}}>
                 {Object.entries(data).length > 0 ? setGameComponent() : <h2>{error}</h2>}
               </GameContext.Provider>
             </div>
