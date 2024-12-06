@@ -20,22 +20,6 @@ const router = createBrowserRouter([
     element: <Juegos />
   },
   {
-    path: "/sopadeletras",
-    element: <WordSearch /> 
-  },
-  {
-    path: "/ahorcado",
-    element: <HangmanComponent />
-  },
-  {
-    path: "/crucigrama",
-    element: <Crucigrama />
-  },
-  {
-    path: "/trivia",
-    element: <Trivia />
-  },
-  {
     path: "/lista/trivia/:oid",
     element: <ListaJuegos />
   }

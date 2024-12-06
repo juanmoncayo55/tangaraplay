@@ -28,12 +28,14 @@ const Hangman = () => {
 
     setInputsLetras(inputsIniciales);
 
-    document.querySelector("#preguntaDiv").innerHTML = `
-      <div class="flex justify-between items-center gap-4">
-        <img src="${data.url}" class="w-5/12 rounded-xl" />
-        <p class="w-7/12 text-[#312B6B] text-lg">${data.pregunta}</p>
-      </div>
-    `;
+    if(data.url !== undefined){
+      document.querySelector("#preguntaDiv").innerHTML = `
+        <div class="flex justify-between items-center gap-4">
+          <img src="${data.url}" class="w-5/12 rounded-xl" />
+          <p class="w-7/12 text-[#312B6B] text-lg">${data.pregunta}</p>
+        </div>
+      `;
+    }
   };
 
   const verificarLetra = (index, valorIngresado) => {

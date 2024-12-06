@@ -11,18 +11,22 @@ const idMenuJuegos = [
   {"oid": 3, "nombre": "Rompecabezas"},
   {"oid": 4, "nombre": "Adivinanza Pregunta"},
   {"oid": 5, "nombre": "Adivinanza Imagen"},
-  {"oid": 6, "nombre": "Ruleta-Pregunta-Unica"},
-  {"oid": 7, "nombre": "Ruleta-Imagen-Unica"},
-  {"oid": 8, "nombre": "Ruleta-Pregunta-multiple"},
-  {"oid": 9, "nombre": "Ruleta-Imagen-multiple"},
   {"oid": 10, "nombre": "Adivinanza-(Trivia Pregunta)-multiple"},
   {"oid": 11, "nombre": "Adivinanza-(Trivia Imagen)-multiple"},
   {"oid": 12, "nombre": "Busca las parejas"},
   {"oid": 13, "nombre": "Sopa de letras"},
-  {"oid": 14, "nombre": "Tres en raya"},
-  {"oid": 15, "nombre": "sudoku"},
+
   {"oid": 16, "nombre": "Crucigrama"},
 ];
+
+/*
+  {"oid": 6, "nombre": "Ruleta-Pregunta-Unica"},
+  {"oid": 7, "nombre": "Ruleta-Imagen-Unica"},
+  {"oid": 8, "nombre": "Ruleta-Pregunta-multiple"},
+  {"oid": 9, "nombre": "Ruleta-Imagen-multiple"},
+    {"oid": 14, "nombre": "Tres en raya"},
+  {"oid": 15, "nombre": "sudoku"},
+*/
 
 export default function App() {
   const [availableItems, setAvailableItems] = useState([]);
@@ -42,12 +46,12 @@ export default function App() {
       // Resultado
       const result = filtrarIds.map(({ oid, nombre }) => ({ oid, nombre }));
 
-      console.log(result)
+
       setAvailableItems(result);
     })()
   }, []);
   return (
-    <div className="flex flex-col justify-between flex-nowrap items-center min-h-screen md:min-h-px md:h-screen">
+    <div className="flex flex-col justify-between flex-nowrap items-center min-h-screen md:min-h-px md:h-screen overflow-x-hidden">
       <Header />
       <main className="grow w-full flex flex-col">
         <header className="w-full bg-gris-claro-azul py-2">

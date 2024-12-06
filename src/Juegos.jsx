@@ -1,8 +1,8 @@
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import { createContext, useEffect, useRef, useState } from "react"
-import { useParams } from 'react-router-dom'
-import { fetchData } from "./utils/data"
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { fetchData, fetchDataListaJuegos } from "./utils/data"
 
 // componentes juegos
 import Roulette from "./components/roulette/Roulette"
@@ -36,17 +36,22 @@ export default function Juegos() {
   const [photoUrl, setPhotoUrl] = useState("");
   const [listSopa, setListSopa] = useState([]);
 
+  const navigate = useNavigate(); 
+
   function setGameComponent () {
     let game = null;
-    console.log(tipoJuego)
     switch (tipoJuego) {
-      case "6": game = <Roulette />;break;
-      case "4": game = <Trivia /> ;break;
-      case "10": game = <TriviaMultiple />;break;
       case "1": game = <Hangman />;break;
+      case "2": game = <Hangman />;break;
       case "3": game = <SlidingPuzzle />;break;
-      case "16": game = <Crucigrama />;break;
+      case "4": game = <Trivia /> ;break;
+      case "5": game = <Trivia />;break;
+      case "6": game = <Roulette />;break;
+      case "7": game = <Trivia /> ;break;
+      case "10": game = <Trivia />;break;
+      case "11": game = <Trivia />;break;
       case "13": game = <WordSearch />;break;
+      case "16": game = <Crucigrama />;break;
       default:break;
     }
     return game;
@@ -54,7 +59,6 @@ export default function Juegos() {
 
   function handleMoves(totalMoves,hasWon) {
     setMoves(totalMoves);
-    console.log(totalMoves)
     if(totalMoves === 0){
       cont = cont + 1;
       setLostAttempts(prev => prev + 1);
@@ -67,8 +71,8 @@ export default function Juegos() {
     if(hasWon)setGameStatus('ganaste');
   } 
 
-  function setWinner(){
-    setGameStatus('ganaste');
+  function setWinner(value){
+    setGameStatus(value);
   }
 
   // Data fetch API
@@ -137,9 +141,76 @@ export default function Juegos() {
     if(modal !== '')document.getElementById(modal).showModal();
     console.log('gameStatus: '+gameStatus);
   }, [gameStatus]);
+
+
+  useEffect(() => {
+    (async() => {
+      const todosJuegos = await fetchDataListaJuegos();
+      const juegos = todosJuegos.filter(juego => juego.tipoJuego === parseInt(tipoJuego));
+
+      const getSomeElements = juegos.map(element => {
+        return {
+          oidJuego: element.oidJuego,
+          tipoJuego: element.tipoJuego
+        }
+      });
+      let ArregloOrdenado = getSomeElements.sort((a, b) => a.oidJuego - b.oidJuego);
+
+      if(localStorage.getItem("listIdPresentGame") === null){
+        localStorage.setItem("listIdPresentGame", JSON.stringify(ArregloOrdenado));
+      }
+    })()
+  }, [tipoJuego]);
+
+
+  const handleNextGame = (e) => {
+    e.preventDefault();
+    
+    console.log("oidJuego: ", oidJuego);
+    let dataUrlsPresentGame = JSON.parse(localStorage.getItem("listIdPresentGame"));
+
+    if (!dataUrlsPresentGame) {
+      console.error("No se encontró el arreglo en localStorage.");
+      return;
+    }
+
+    // Buscar el siguiente juego con un oidJuego mayor al actual
+    dataUrlsPresentGame = dataUrlsPresentGame.map(game => 
+      game.oidJuego === parseInt(oidJuego) ? { ...game, completado: true } : game
+    );
+
+    // Guardar el arreglo actualizado en localStorage
+    localStorage.setItem("listIdPresentGame", JSON.stringify(dataUrlsPresentGame));
+
+
+     const mayores = dataUrlsPresentGame
+      .filter(game => game.oidJuego > oidJuego && !game.completado)
+      .sort((a, b) => a.oidJuego - b.oidJuego); // Orden ascendente
+
+    const menores = dataUrlsPresentGame
+      .filter(game => game.oidJuego < oidJuego && !game.completado)
+      .sort((a, b) => a.oidJuego - b.oidJuego); // Orden ascendente
+
+    // Priorizar mayores, luego menores
+    const nextGame = mayores.length > 0 ? mayores[0] : menores[0];
+
+    console.log(nextGame)
+    if (nextGame) {
+      document.getElementById("ganasteModal").close();
+      // Redirigir al siguiente juego
+      navigate(`/juegos/${tipoJuego}/${nextGame.oidJuego}/${oidUsuario}`);
+    } else {
+      localStorage.removeItem("listIdPresentGame");
+      setGameStatus("ganaste")
+      const allCompleted = dataUrlsPresentGame.every(item => item.completado === true);
+      if(allCompleted || localStorage.setItem("listIdPresentGame") == null ){
+        navigate("/")
+      };
+    }
+  }
   
   return (
-    <div className="flex flex-col justify-between flex-nowrap items-center min-h-screen md:min-h-px md:h-screen">
+    <div className="flex flex-col justify-between flex-nowrap items-center min-h-screen md:min-h-px md:h-screen overflow-x-hidden">
       <Header />
       <main className="grow w-full flex flex-col">
 
@@ -174,10 +245,13 @@ export default function Juegos() {
         </section>
 
         {/* modals */}
-        <GanasteModal puntos={data.puntos} />
+        <GanasteModal puntos={data.puntos} handleNextGame={handleNextGame} />
         <FallasteModal />
 
       </main>
+      {/*<button className="bg-red-700 rounded-full w-12 h-12 text-black fixed bottom-8 left-8 grid place-content-center text-5xl font-bold z-10 cursor-pointer" onClick={handleNextGame}>
+        > 
+      </button>*/}
       <Footer />
     </div>
   )
