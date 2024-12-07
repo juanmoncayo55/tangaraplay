@@ -14,6 +14,7 @@ import VidasMovimientos from "./components/VidasMovimientos"
 import Pregunta from "./components/Pregunta"
 import GanasteModal from "./components/GanasteModal"
 import FallasteModal from "./components/FallasteModal"
+import FinalizasteModal from "./components/FinalizasteModal"
 import Crucigrama from "./components/crucigrama/Crucigrama"
 import WordList from "./components/WordList"
 import WordSearch from "./components/wordSearch/WordSearch"
@@ -46,7 +47,7 @@ export default function Juegos() {
       case "3": game = <SlidingPuzzle />;break;
       case "4":case "5": game = <Trivia /> ;break;
       case "6":case "7":case "8":case "9": game = <Roulette />;break;
-      case "10":case "11": game = <TriviaMultiple />;break;
+      case "10":case "11": game = <Trivia />;break;
       case "12": game = <MemoramaCartas />;break;
       case "13": game = <WordSearch />;break;
       case "16": game = <Crucigrama />;break;
@@ -69,8 +70,8 @@ export default function Juegos() {
     if(hasWon)setGameStatus('ganaste');
   } 
 
-  function setWinner(value){
-    setGameStatus(value);
+  function setWinner(){
+    setGameStatus();
   }
 
   // Data fetch API
@@ -130,6 +131,7 @@ export default function Juegos() {
   // modal estado del juego
   useEffect(() => {
     let modal = '';
+    console.log(gameStatus)
     switch (gameStatus) {
       case 'ganaste':modal='ganasteModal';break;
       case 'fallaste':modal='fallasteModal';break;
@@ -192,14 +194,13 @@ export default function Juegos() {
     // Priorizar mayores, luego menores
     const nextGame = mayores.length > 0 ? mayores[0] : menores[0];
 
-    console.log(nextGame)
     if (nextGame) {
       document.getElementById("ganasteModal").close();
       // Redirigir al siguiente juego
       navigate(`/juegos/${tipoJuego}/${nextGame.oidJuego}/${oidUsuario}`);
     } else {
+      setGameStatus("finalizaste")
       localStorage.removeItem("listIdPresentGame");
-      setGameStatus("ganaste")
       const allCompleted = dataUrlsPresentGame.every(item => item.completado === true);
       if(allCompleted || localStorage.setItem("listIdPresentGame") == null ){
         navigate("/")
@@ -245,6 +246,7 @@ export default function Juegos() {
         {/* modals */}
         <GanasteModal puntos={data.puntos} handleNextGame={handleNextGame} />
         <FallasteModal />
+        <FinalizasteModal />
 
       </main>
       {/*<button className="bg-red-700 rounded-full w-12 h-12 text-black fixed bottom-8 left-8 grid place-content-center text-5xl font-bold z-10 cursor-pointer" onClick={handleNextGame}>
