@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "build": {
+    "distDir": "dist"
+  },
   "dependencies": {
     "@gsap/react": "^2.1.1",
     "@jaredreisinger/react-crossword": "^5.2.0",
