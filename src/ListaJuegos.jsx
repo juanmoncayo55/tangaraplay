@@ -35,11 +35,11 @@ const ListaJuegos = () => {
           <Header />
 
           <section className="grow container mx-auto flex flex-col md:flex-row space-x-0 md:space-x-12 space-y-8 md:space-y-0 px-4 lg:px-16 xxl:px-0 pb-12">
-            <div className="grid grid-cols-5 gap-4 my-6">
+            <div className="grid grid-cols-5 gap-4 my-6 items-start">
               {
                 listGame.length > 0 ?
                   listGame.map((item, key) => (
-                    <div className="card w-auto text-azul-claro shadow-lg transition-all ease-in-out duration-700 cursor-pointer  hover:shadow-2xl" key={key}>
+                    <div className="card w-auto text-azul-claro shadow-lg transition-all ease-in-out duration-700 cursor-pointer  hover:shadow-2xl px-3 py-1" key={key}>
                         <div className="card-body  pt-6 p-2">
                           <h2 className="card-title mx-auto text-center leading-tight text-base">{item.titulo}</h2>
                           <Link  className="btn bg-transparent hover:bg-success text-center font-semibold flex items-center justify-center" to={`/juegos/${item.tipoJuego}/${item.oidJuego}/18`}>

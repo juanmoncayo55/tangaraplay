@@ -71,7 +71,7 @@ export default function Juegos() {
   } 
 
   function setWinner(){
-    setGameStatus();
+    setGameStatus("ganaste");
   }
 
   // Data fetch API
@@ -194,6 +194,8 @@ export default function Juegos() {
     // Priorizar mayores, luego menores
     const nextGame = mayores.length > 0 ? mayores[0] : menores[0];
 
+    console.log(dataUrlsPresentGame[dataUrlsPresentGame.length - 1])
+
     if (nextGame) {
       document.getElementById("ganasteModal").close();
       // Redirigir al siguiente juego
@@ -207,9 +209,14 @@ export default function Juegos() {
       };
     }
   }
+
+  const handleLoLograste = () => {
+    document.getElementById("finalizasteModal").showModal();
+  }
   
   return (
     <div className="flex flex-col justify-between flex-nowrap items-center min-h-screen md:min-h-px md:h-screen overflow-x-hidden">
+      <button onClick={handleLoLograste}>Abrir!!!!!</button>
       <Header />
       <main className="grow w-full flex flex-col">
 
