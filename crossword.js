@@ -463,7 +463,7 @@ var CrosswordUtils = {
                 
                 if(show_answers) {
                     html.push("<input type='text' width='25' class='" + css_class + " input' " +
-                             "oninput='typechar(this)' maxlength='1' onclick='typeclick(this)' " +
+                             "oninput='typechar(this)' maxlength='1' onkeyup='forceLower(this)' onclick='typeclick(this)' class='fmonserrat'" +
                              dataAttributes + " /> " +
                              "<span class='canswer none' id='chart" + uanum + "'>" + char + "</span>" +
                              "<span class='uanswer none' id='ua" + uanum + "'></span>");
@@ -492,46 +492,240 @@ var CrosswordUtils = {
     }
 };
 
-
+function forceLower(e){
+    e.value = e.value.toUpperCase()
+}
 var selectedua = -1;
 var wordC = [];
 window.wordIncorrect = 0;
+function getWordInputs(currentInput) {
+    const cell = currentInput.closest('td');
+    const questionNumbers = cell.dataset.question.split(' ');
+    const direction = getWordDirection(currentInput);
+    const wordNumber = questionNumbers.find(num => {
+        const pos = CrosswordUtils.getQuestionPosition(parseInt(num));
+        return pos && pos.direction[direction];
+    });
+
+    if (!wordNumber) return [];
+
+    // Obtener todas las celdas que pertenecen a la palabra actual
+    return Array.from(document.querySelectorAll(`td[data-question*="${wordNumber}"]`))
+        .map(td => td.querySelector('input'))
+        .filter(input => input); // Filtrar cualquier null
+}
+
+// Función para determinar la dirección de la palabra actual (across o down)
+function getWordDirection(currentInput) {
+    const cell = currentInput.closest('td');
+    const questionNumbers = cell.dataset.question.split(' ');
+    
+    // Si solo hay un número de pregunta, usamos ese
+    if (questionNumbers.length === 1) {
+        const pos = CrosswordUtils.getQuestionPosition(parseInt(questionNumbers[0]));
+        return pos.direction.across ? 'across' : 'down';
+    }
+    
+    // Si hay dos números, necesitamos determinar cuál es la dirección activa
+    // Podemos usar la última dirección seleccionada o implementar una lógica personalizada
+    return currentWordDirection || 'across'; // currentWordDirection debe ser una variable global
+}
+
+// Variable global para mantener la dirección actual de la palabra
+let currentWordDirection = 'across';
+
+// Función para cambiar la dirección actual
+function toggleDirection() {
+    currentWordDirection = currentWordDirection === 'across' ? 'down' : 'across';
+}
+
+// Variables globales necesarias
+window.currentWordDirection = 'across';
+window.lastFocusedInput = null;
+
+// Modifica la función typechar existente
 function typechar(e) {
-    // Verificar si se ha agregado una letra (no borrado)
+    // Mantener el input actual como referencia
+    window.lastFocusedInput = e;
+    
     if (e.value.length > 0) {
-        $("#" + selectedua).html(e.value)
-        $("#vkeyboard").hide()
+        $("#" + selectedua).html(e.value);
+        $("#vkeyboard").hide();
         
         /* Validacion para ver si la letra agregada es correcta o incorreta */
-        if(e.parentNode.querySelector(".canswer").textContent === e.value){
-            e.parentNode.style.backgroundColor = "#0079F2"; //correcto
-            e.style.color = "#fff"; //correcto
+        if(e.parentNode.querySelector(".canswer").textContent === e.value.toUpperCase()){
+            e.parentNode.style.backgroundColor = "#0079F2";
+            e.style.color = "#fff";
         } else {
-            e.parentNode.style.backgroundColor = "#F1273F"; //incorrecto
-            e.style.color = "#fff"; //incorrecto
+            e.parentNode.style.backgroundColor = "#F1273F";
+            e.style.color = "#fff";
             window.wordIncorrect = window.wordIncorrect + 1;
             if(window.externalFunction){
-                window.externalFunction(window.wordIncorrect)
+                window.externalFunction(window.wordIncorrect);
             }
+        }
+
+        // Obtener el siguiente input en la secuencia
+        const nextInput = findNextInput(e);
+        if (nextInput) {
+            nextInput.focus();
+            nextInput.select();
         }
         
         /* validacion para ver si las letras escritas son todas correctas */
         let allTds = document.querySelectorAll(".crossword td:not(.no-border)");
+        wordC = [];
         
         allTds.forEach(td => {
-            if(td.style.backgroundColor === "rgb(0, 121, 242)" && e.parentNode === td){
-                wordC.push(td)
+            if(td.style.backgroundColor === "rgb(0, 121, 242)"){
+                wordC.push(td);
                 if(wordC.length === allTds.length){
-                    alert("Completo el crucigrama")
+                    // Dispatch un evento personalizado cuando se complete el crucigrama
+                    const event = new CustomEvent('crosswordCompleted', {
+                        detail: {
+                            totalWords: allTds.length,
+                            incorrectAttempts: window.wordIncorrect
+                        }
+                    });
+                    document.dispatchEvent(event);
                 }
             }
-        })
+        });
     }
 }
 
+// Función para encontrar el siguiente input en la secuencia
+function findNextInput(currentInput) {
+    const cell = currentInput.closest('td');
+    const questionNumbers = cell.dataset.question ? cell.dataset.question.split(' ') : [];
+    
+    // Si no hay números de pregunta, retornar null
+    if (!questionNumbers.length) return null;
+    
+    // Obtener todas las celdas que comparten el mismo número de pregunta
+    const currentNumber = questionNumbers[0]; // Usamos el primer número por defecto
+    const relatedCells = Array.from(document.querySelectorAll(`td[data-question*="${currentNumber}"]`));
+    
+    // Ordenar las celdas según su posición
+    const sortedCells = relatedCells.sort((a, b) => {
+        const aPos = a.title.split(',').map(Number);
+        const bPos = b.title.split(',').map(Number);
+        return aPos[0] === bPos[0] ? aPos[1] - bPos[1] : aPos[0] - bPos[0];
+    });
+    
+    // Encontrar el índice de la celda actual
+    const currentIndex = sortedCells.indexOf(cell);
+    
+    // Si hay una siguiente celda, retornar su input
+    if (currentIndex < sortedCells.length - 1) {
+        return sortedCells[currentIndex + 1].querySelector('input');
+    }
+    
+    return null;
+}
+
+// Agregar event listeners para el manejo de teclas
+document.addEventListener('keydown', function(e) {
+    const activeElement = document.activeElement;
+    if (!activeElement || !activeElement.matches('.crossword input')) return;
+    const cell = activeElement.closest('td');
+    if (!cell) return;
+    switch(e.key) {
+        case 'Backspace':
+            if (!activeElement.value) {
+                e.preventDefault();
+                const prevInput = findPreviousInput(activeElement);
+                if (prevInput) {
+                    prevInput.value = '';
+                    prevInput.focus();
+                    // Disparar evento de input para actualizar la validación
+                    const event = new Event('input', { bubbles: true });
+                    prevInput.dispatchEvent(event);
+                }
+            }
+            break;
+            
+        case 'ArrowRight':
+            e.preventDefault();
+            const nextRight = findAdjacentInput(activeElement, 0, 1);
+            if (nextRight) nextRight.focus();
+            break;
+            
+        case 'ArrowLeft':
+            e.preventDefault();
+            const nextLeft = findAdjacentInput(activeElement, 0, -1);
+            if (nextLeft) nextLeft.focus();
+            break;
+            
+        case 'ArrowDown':
+            e.preventDefault();
+            const nextDown = findAdjacentInput(activeElement, 1, 0);
+            if (nextDown) nextDown.focus();
+            break;
+            
+        case 'ArrowUp':
+            e.preventDefault();
+            const nextUp = findAdjacentInput(activeElement, -1, 0);
+            if (nextUp) nextUp.focus();
+            break;
+    }
+});
+
+// Función para encontrar el input anterior en la secuencia
+function findPreviousInput(currentInput) {
+    const cell = currentInput.closest('td');
+    const questionNumbers = cell.dataset.question ? cell.dataset.question.split(' ') : [];
+    
+    if (!questionNumbers.length) return null;
+    
+    const currentNumber = questionNumbers[0];
+    const relatedCells = Array.from(document.querySelectorAll(`td[data-question*="${currentNumber}"]`));
+    
+    const sortedCells = relatedCells.sort((a, b) => {
+        const aPos = a.title.split(',').map(Number);
+        const bPos = b.title.split(',').map(Number);
+        return aPos[0] === bPos[0] ? aPos[1] - bPos[1] : aPos[0] - bPos[0];
+    });
+    
+    const currentIndex = sortedCells.indexOf(cell);
+    
+    if (currentIndex > 0) {
+        return sortedCells[currentIndex - 1].querySelector('input');
+    }
+    
+    return null;
+}
+
+// Función para encontrar inputs adyacentes (para las teclas de flecha)
+function findAdjacentInput(currentInput, rowOffset, colOffset) {
+    const currentCell = currentInput.closest('td');
+    const [currentRow, currentCol] = currentCell.title.split(',').map(n => parseInt(n.trim()));
+    
+    // Buscar la celda en la posición adyacente
+    const cells = document.querySelectorAll('.crossword td');
+    for (let cell of cells) {
+        const [row, col] = cell.title.split(',').map(n => parseInt(n.trim()));
+        if (row === currentRow + rowOffset && col === currentCol + colOffset) {
+            const input = cell.querySelector('input');
+            if (input) return input;
+        }
+    }
+    
+    return null;
+}
+
+
+
+
+
+
+
+
+
 function typeclick(e){
+    //console.log(e.target.parentNode.dataset.question.charAt(0))
     let arrPreguntas = JSON.parse( localStorage.getItem("question") );
-    let position = parseInt(e.parentNode.dataset.question.charAt(0));
+    let position = parseInt(e.parentNode.dataset.question.charAt(0) || target.parentElement.dataset.position);
     arrPreguntas.forEach(pregunta => {
       if(pregunta.p === parseInt(position)){
         document.querySelector("#preguntaDiv").innerText = pregunta.q;
